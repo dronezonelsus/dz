@@ -1,8 +1,13 @@
 $brand-primary: #532F8C;
 $brand-language: #B01302;
+$brand-white: #FFFFFF;
 
 .jumbotron {
-  background: $brand-primary;
+  background: image-url('drone4.jpg') no-repeat;
+  width: 100%;
+  height:100%;
+  background-size: cover;
+  overflow: hidden;
   color: white;
   padding-bottom: 80px;
 
@@ -15,7 +20,8 @@ $brand-language: #B01302;
   }
 
   p {
-    color: lighten($brand-primary, 50%);
+    /*color: lighten($brand-primary, 50%);*/
+    color: $brand-white;
     max-width: 75%;
     margin: 1em auto 2em;
   }
