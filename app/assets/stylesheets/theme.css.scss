@@ -31,8 +31,8 @@ $brand-white: #FFFFFF;
   }
 
   .lang-logo {
-    
-    background: $brand-language;
+    display: block;
+    background: white;
     border-radius: 50%;
     overflow: hidden;
     width: 100px;
