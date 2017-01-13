@@ -44,22 +44,23 @@
 <div style='width: 800px;'>
   <div id="map" style='width: 800px; height: 400px;'></div>
   <script type="text/javascript">
-    handler = Gmaps.build('Google');
+    var handler = Gmaps.build('Google');
     handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
     markers = handler.addMarkers([
       {
-        "lat": 32.7767,
-        "lng": -96.7970,
+        "lat": <%= @latitude %>,
+        "lng": <%= @longitude %>,
         "picture": {
-          "url": "http://people.mozilla.com/~faaborg/files/shiretoko/firefoxIcon/firefox-32.png",
-          "width":  32,
-          "height": 32
+          "url": "<%= asset_path('DroneMap.png') %>",
+          "width":  100,
+          "height": 100
         },
         "infowindow": "hello!"
       }
     ]);
     handler.bounds.extendWith(markers);
     handler.fitMapToBounds();
+    
   });
   </script>
 </div>

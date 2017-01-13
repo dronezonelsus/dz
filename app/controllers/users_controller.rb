@@ -5,6 +5,8 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
+    @latitude = 32.7767
+    @longitude = -96.7970
     @hash = Gmaps4rails.build_markers(@users) do |user, marker|
     marker.lat user.Latitude
     marker.lng user.Longitude
