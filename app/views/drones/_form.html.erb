@@ -1,0 +1,35 @@
+<%= form_for(@drone) do |f| %>
+  <% if @drone.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@drone.errors.count, "error") %> prohibited this drone from being saved:</h2>
+
+      <ul>
+      <% @drone.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :Drone_number %><br>
+    <%= f.number_field :droneNumber %>
+  </div>
+  <div class="field">
+    <%= f.label :Drone_name %><br>
+    <%= f.text_field :droneName %>
+  </div>
+  <div class="field">
+    <%= f.label :latitude %><br>
+    <%= f.text_field :latitude %>
+  </div>
+  <div class="field">
+    <%= f.label :longitude %><br>
+    <%= f.text_field :longitude %>
+  </div>
+  </br>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+  </br>
+<% end %>

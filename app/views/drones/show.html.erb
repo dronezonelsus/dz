@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Dronenumber:</strong>
+  <%= @drone.droneNumber %>
+</p>
+
+<p>
+  <strong>Dronename:</strong>
+  <%= @drone.droneName %>
+</p>
+
+<p>
+  <strong>Latitude:</strong>
+  <%= @drone.latitude %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @drone.longitude %>
+</p>
+
+<%= link_to 'Edit', edit_drone_path(@drone) %> |
+<%= link_to 'Back', drones_path %>

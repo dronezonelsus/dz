@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  droneNumber: 1
+  droneName: MyString
+  latitude: 1.5
+  longitude: 1.5
+
+two:
+  droneNumber: 1
+  droneName: MyString
+  latitude: 1.5
+  longitude: 1.5

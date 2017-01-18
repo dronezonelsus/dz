@@ -5,18 +5,6 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
-    #@lat = 29.7604  
-    #@lon = -93.53
-    @hash = Gmaps4rails.build_markers(@users) do |user, marker|
-      marker.lat user.Latitude
-      marker.lng user.Longitude
-      marker.infowindow user.User
-      marker.picture({
-        :url => ActionController::Base.helpers.asset_path('DroneMap.png'),
-        :width => 50,
-        :height => 50
-      })
-    end
   end
 
   # GET /users/1
