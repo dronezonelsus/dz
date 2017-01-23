@@ -9,8 +9,8 @@ class MappageController < ApplicationController
       marker.infowindow drone.droneName
       marker.picture({
         :url => ActionController::Base.helpers.asset_path('DroneMap.png'),
-        :width => 50,
-        :height => 50
+        :width => 60,
+        :height => 60
       })
     end
   end

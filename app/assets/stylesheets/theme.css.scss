@@ -2,6 +2,9 @@ $brand-primary: #532F8C;
 $brand-language: #B01302;
 $brand-white: #FFFFFF;
 
+.container{ width: 90%; }
+
+
 .jumbotron {
   background: image-url('drone4.jpg') no-repeat;
   width: 100%;
@@ -43,6 +46,5 @@ $brand-white: #FFFFFF;
       max-width: 100%;
     }
   }
-
 }
 

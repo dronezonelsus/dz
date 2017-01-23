@@ -1,3 +1,67 @@
 // Place all the styles related to the mappage controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$brand-primary: #532F8C;
+$brand-language: #B01302;
+$brand-white: #FFFFFF;
+
+.container{ width: 90%; }
+.jumb{
+  background: image-url('droneMappage4.jpg') no-repeat;
+  width: 100%;
+  height:100%;
+  background-size: cover;
+  overflow: hidden;
+  color: white;
+  padding-bottom: 80px;
+  margin-top: 5%;
+}
+.btn-primary {
+	background: lighten($brand-primary, 20%);
+  	border-color: lighten($brand-primary, 20%);
+  	&:hover {
+   		background: lighten($brand-primary, 15%);
+  	}
+}
+
+div.jumb_transbox{
+	margin-left: 10%;
+	background-color: #ffffff;
+	opacity: 0.6;
+	width:300px;
+	height:400px;
+}
+
+div.jumb_transbox h1{
+	font-weight: bold;
+	color: #4B515D;
+	padding: 10%;
+	font-size: 4em;
+	text-align: center;
+	text-decoration: overline;
+	line-height: 150%;
+}
+
+#footer{ position:fixed;
+   bottom:0;
+   width:100%;
+   height:60px;   /* Height of the footer */
+   background:#3E4551;
+}
+
+#marqueeOne { color: #ff4444; }
+
+div.sidebarOne h3 { color: #eeeeee; 
+	text-align: center;
+	border-top: 1px solid #ffffff;
+}
+
+.footerText {
+  display: inline-block;
+}
+
+small{ display: inline-block;
+	font-weight: bold; 
+	margin-left: 20px; 
+  	vertical-align: middle; }
