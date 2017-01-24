@@ -5,11 +5,11 @@
 
 
 <style type="text/css">
-	.pos{ border-style: ridge; }
+	.pos{ border-style: none; }
 	.sidebarOne{ 
 		height: 700px;
 		border-color: #1C2331;
-		background-color:#3E4551;}
+		background-color:#2E2E2E; opacity: 0.9; }
 </style>
 
 <div class="body_padding">
@@ -21,9 +21,16 @@
 		<button href="" type="button" class="btn btn-danger" style="display: block; margin: 0 auto; text-align: center; font-weight: bold;">Current FAA Regulations</button>
 	</div>
 </div>
-<div class="container body_padding" style="padding:10px; padding-bottom:50px;   /* Set relative to Height of the footer */" >
-	<marquee behavior="scroll" direction="left" scrollamount="5"><h3 id="marqueeOne" >Live Tracking in Progress...</h3></marquee>
+
+<div class="container body_padding" style="padding:10px; padding-bottom:50px;   /* Set relative to Height of the footer */" >	
+	<!-- <marquee behavior="scroll" direction="left" scrollamount="5"><h3 id="marqueeOne" >Live Tracking in Progress...</h3></marquee> -->
 	<!-- <h1>Live Tracking</h1> -->
+	<div class="row">
+		<div class="col-lg-12 col-md-12 col-sm-12" id="designOne">
+			<h3 style="margin-top: 12.5px;">Live Tracking</h3>
+		</div>
+	</div>
+
 	<div class="row">
   		<div id="map" class="pos col-lg-8 col-md-7 col-sm-12" style='height: 700px;'> 
   			<script type="text/javascript">
@@ -37,7 +44,7 @@
 		</div>
 		<div class="col-lg-1 col-md-2"></div>
 		<div class="col-lg-3 col-md-3 col-sm-12 sidebarOne panel-primary">
-			<h3>Drone Details</h3>
+			<h4>Flight Notifications</h4>
 		</div>
 	</div>
 </div>

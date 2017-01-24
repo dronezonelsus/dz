@@ -15,7 +15,7 @@ $brand-white: #FFFFFF;
   overflow: hidden;
   color: white;
   padding-bottom: 80px;
-  margin-top: 5%;
+  margin-top: 70px;
 }
 .btn-primary {
 	background: lighten($brand-primary, 20%);
@@ -52,7 +52,7 @@ div.jumb_transbox h1{
 
 #marqueeOne { color: #ff4444; }
 
-div.sidebarOne h3 { color: #eeeeee; 
+div.sidebarOne h4 { color: #eeeeee; 
 	text-align: center;
 	border-top: 1px solid #ffffff;
 }
@@ -64,4 +64,11 @@ div.sidebarOne h3 { color: #eeeeee;
 small{ display: inline-block;
 	font-weight: bold; 
 	margin-left: 20px; 
-  	vertical-align: middle; }
+  	vertical-align: middle; 
+}
+
+#designOne { background-color: #1C2331; opacity: 0.9;
+  height: 50px; margin-top:20px; margin-bottom:5px; 
+  margin-left:0px; margin-right:0px; 
+  color: #ffffff; 
+}
