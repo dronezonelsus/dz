@@ -14,12 +14,6 @@ $brand-white: #FFFFFF;
   color: white;
   padding-bottom: 80px;
 
-
-  .navbar + & {
-    margin-top: -20px;
-  }
-}
-
   .btn-primary {
     background: lighten($brand-primary, 20%);
     border-color: lighten($brand-primary, 20%);
@@ -35,6 +29,9 @@ $brand-white: #FFFFFF;
     margin: 1em auto 2em;
   }
 
+  .navbar + & {
+    margin-top: -20px;
+  }
 
   .lang-logo {
     display: block;
@@ -49,5 +46,5 @@ $brand-white: #FFFFFF;
       max-width: 100%;
     }
   }
-
+}
 
