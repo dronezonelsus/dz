@@ -7,6 +7,7 @@
   <%= stylesheet_link_tag  '//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css' %>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= stylesheet_link_tag 'mappage.scss' %>
+  <%= stylesheet_link_tag 'faaregulationpage.scss' %>
   <%= javascript_include_tag  '//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js' %>
   <%= csrf_meta_tags %>
   <style type="text/css">
@@ -21,6 +22,15 @@
   </style>
 </head>
 <body>
+<div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
 <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
   <div class="container">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -37,7 +47,7 @@
           <a href="https://devcenter.heroku.com/articles/how-heroku-works"><span class="glyphicon glyphicon-user"></span> How DroneZone Works</a>
         </li>
         <li>
-          <a href="#" role="button"><span class="glyphicon glyphicon-info-sign"></span> Current FAA Regulations</a>
+          <a href="/faaregulationpage/index" role="button"><span class="glyphicon glyphicon-info-sign"></span> Current FAA Regulations</a>
         </li>
       </ul>    
 
@@ -59,10 +69,10 @@
   <%= yield %>
 </div>
 <footer>
-  <div class="footerText" style=" position:fixed; bottom:0; width:100%; height:40px;   /* Height of the footer */ background:#b0bec5 ; ">
+  <div class="footerText" style=" position:fixed; bottom:0; width:100%; height:40px;   /* Height of the footer */ background:#2E2E2E ; ">
     <small>&copy; Copyright 2017, Drone Zone Inc.</small>
+    <div class="fb-like" data-href="https://facebook.com/dronezone" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="true" data-colorscheme="dark"></div>
   </div>
-
 </footer>
 </body>
 </html>

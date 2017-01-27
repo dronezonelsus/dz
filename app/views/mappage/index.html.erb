@@ -12,15 +12,7 @@
 		background-color:#2E2E2E; opacity: 0.9; }
 </style>
 
-<div class="body_padding">
-
 <p id="notice"><%= notice %></p>
-<div class="jumb" style="width: 100%; height: 400px">
-	<div class="jumb_transbox">
-		<h1>KNOW</br>BEFORE</br>YOU FLY</h1>
-		<button href="" type="button" class="btn btn-danger" style="display: block; margin: 0 auto; text-align: center; font-weight: bold;">Current FAA Regulations</button>
-	</div>
-</div>
 
 <div class="container body_padding" style="padding:10px; padding-bottom:50px;   /* Set relative to Height of the footer */" >	
 	<!-- <marquee behavior="scroll" direction="left" scrollamount="5"><h3 id="marqueeOne" >Live Tracking in Progress...</h3></marquee> -->
@@ -47,5 +39,28 @@
 			<h4>Flight Notifications</h4>
 		</div>
 	</div>
-</div>
+
+	<div class="row">	
+		<div class="col-lg-12 col-md-12 col-sm-12 bottomDiv">
+			<div class="trackYourDrone col-lg-4">
+				<div class="row">
+					<div class="enterDroneNum">
+						<h4> Quick & Easy Tracking</h4>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-3">
+						<form action="demo_form.asp">
+							<div id="enterDroneNumBox" class="enterDroneNum">
+  								<input type="text" name="droneNumber" placeholder="Enter Drone #"><br><br>
+  							</div>
+  							<div id="trackFlightButton">
+ 								<input type="submit" value="Track Flight" class="btn btn-success">
+ 							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

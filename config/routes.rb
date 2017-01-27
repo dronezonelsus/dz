@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'faaregulationpage/index' => "faaregulationpage#index"
+
   get 'mappage/index'
 
   resources :drones

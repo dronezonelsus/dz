@@ -1,0 +1,2 @@
+module FaaregulationpageHelper
+end
