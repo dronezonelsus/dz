@@ -11,30 +11,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170117221545) do
+ActiveRecord::Schema.define(version: 20170207053325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "drones", force: :cascade do |t|
-    t.integer  "droneNumber"
-    t.string   "droneName"
+    t.integer  "drone_number"
+    t.string   "drone_name"
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "user_id"
+  end
+
+  create_table "session", force: :cascade do |t|
+    t.string   "session"
+    t.string   "cookie"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.text     "CompanyName"
-    t.string   "CompanyEmail"
-    t.integer  "Stock"
+    t.text     "company_name"
     t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.text     "User"
-    t.text     "Password"
-    t.float    "Latitude"
-    t.float    "Longitude"
+    t.text     "password"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.boolean  "admin"
+    t.string   "status"
+    t.integer  "last_login"
   end
 
   create_table "widgets", force: :cascade do |t|
