@@ -20,8 +20,8 @@
   <tbody>
     <% @drones.each do |drone| %>
       <tr>
-        <td><%= drone.droneNumber %></td>
-        <td><%= drone.droneName %></td>
+        <td><%= drone.drone_number %></td>
+        <td><%= drone.drone_name %></td>
         <td id="latitude"><%= drone.latitude %></td>
         <td id="longitude"><%= drone.longitude %></td>
         <td><%= link_to 'Show', drone %></td>

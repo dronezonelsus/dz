@@ -6,7 +6,7 @@ class MappageController < ApplicationController
     @hash = Gmaps4rails.build_markers(@drones) do |drone, marker|
       marker.lat drone.reload.latitude
       marker.lng drone.reload.longitude
-      marker.infowindow drone.reload.droneName
+      marker.infowindow drone.reload.drone_name
       marker.picture({
         :url => ActionController::Base.helpers.asset_path('DroneMap.png'),
         :width => 60,
