@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= stylesheet_link_tag  '//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css' %>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= stylesheet_link_tag 'mappage.scss' %>
-  <%= stylesheet_link_tag 'faaregulationpage.scss' %>
+  <!--<%= stylesheet_link_tag 'mappage.scss' %>
+  <%= stylesheet_link_tag 'faaregulationpage.scss' %>-->
   <%= javascript_include_tag  '//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js' %>
   <%= csrf_meta_tags %>
   <style type="text/css">
@@ -59,7 +59,7 @@
           <a href="/drones"><span class="glyphicon glyphicon-log-in"></span> Login</a>
         </li>
         <li class="navbar-right">
-          <a href=""><span class="glyphicon glyphicon-user"></span> Register</a>
+          <a href="/users/new"><span class="glyphicon glyphicon-user"></span> Register</a>
         </li>
       </ul>
     </div>
