@@ -11,37 +11,26 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :User %><br>
-    <%= f.text_area :User %>
+  <div class="form-group">
+    <%= f.label :first_name %><br>
+    <%= f.text_field :first_name %>
   </div>
-
-  <div class="field">
-    <%= f.label :Password %><br>
-    <%= f.text_area :Password %>
+   <div class="form-group">
+    <%= f.label :last_name %><br>
+    <%= f.text_field :last_name %>
   </div>
-
-  <div class="field">
-    <%= f.label :Company_Name %><br>
-    <%= f.text_area :CompanyName %>
+   <div class="form-group">
+    <%= f.label :email %><br>
+    <%= f.email_field :email %>
   </div>
-  <div class="field">
-    <%= f.label :Company_Email %><br>
-    <%= f.text_field :CompanyEmail %>
+  <div class="form-group">
+    <%= f.label :password %><br>
+    <%= f.password_field :password %>
   </div>
-  <div class="field">
-    <%= f.label :Stock %><br>
-    <%= f.number_field :Stock %>
+  <div class="form-group">
+    <%= f.label :company_name %><br>
+    <%= f.text_field :company_name %>
   </div>
-  <div class="field">
-    <%= f.label :Latitude %><br>
-    <%= f.number_field :Latitude %>
-  </div>
-  <div class="field">
-    <%= f.label :Longitude %><br>
-    <%= f.number_field :Longitude %>
-  </div>
-  <br><br>
   <div class="actions">
     <%= f.submit %>
   </div>
