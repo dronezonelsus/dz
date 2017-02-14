@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.3.1'
+ruby '2.2.6'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
@@ -43,3 +43,4 @@ gem 'pg'
 gem 'byebug',  '9.0.0', platform: :mri
 gem 'gmaps4rails'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'bcrypt'
