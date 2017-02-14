@@ -4,19 +4,20 @@ class DronesController < ApplicationController
   # GET /drones
   # GET /drones.json
   def index
-    @drones = Drone.all
+    @drones = Drone.all.reload
+    @drone = Drone.new
     #@lat = 29.7604  
     #@lon = -93.53
-    @hash = Gmaps4rails.build_markers(@drones) do |drone, marker|
-      marker.lat drone.latitude
-      marker.lng drone.longitude
-      marker.infowindow drone.droneName
-      marker.picture({
-        :url => ActionController::Base.helpers.asset_path('DroneMap.png'),
-        :width => 50,
-        :height => 50
-      })
-    end
+    # @hash = Gmaps4rails.build_markers(@drones) do |drone, marker|
+    #   marker.lat drone.latitude
+    #   marker.lng drone.longitude
+    #   marker.infowindow drone.droneName
+    #   marker.picture({
+    #     :url => ActionController::Base.helpers.asset_path('DroneMap.png'),
+    #     :width => 50,
+    #     :height => 50
+    #   })
+    # end
   end
 
   def maps
@@ -45,10 +46,12 @@ class DronesController < ApplicationController
       if @drone.save
         format.html { redirect_to @drone, notice: 'Drone was successfully created.' }
         format.json { render :show, status: :created, location: @drone }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @drone.errors, status: :unprocessable_entity }
-      end
+        format.js
+ß      end
     end
   end
 
