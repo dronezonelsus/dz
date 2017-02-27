@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get 'faaregulationpage/index' => "faaregulationpage#index"
 
   get 'mappage/index'
+  get 'mappage/secondindex'
+  get 'mappage/singledronepage2'
 
   # Session routes
   get    '/login',   to: 'sessions#new'

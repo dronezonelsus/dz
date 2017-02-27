@@ -3,13 +3,13 @@ development:
   encoding: unicode
   database: drone_development
   pool: 5
-  username: rajayi
-  password:
+  username: postgres
+  password: dz
 
 test:
   adapter: postgresql
   encoding: unicode
   database: drone_test
   pool: 5
-  username: rajayi
-  password:
+  username: postgres
+  password: dz
