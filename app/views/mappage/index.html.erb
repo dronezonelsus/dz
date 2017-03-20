@@ -51,8 +51,8 @@
   								markers = handler.addMarkers(result); 		
   								for (var j = 0; j < markers.length; j++) {
   									var marker = markers[j];
-									google.maps.event.addListener(marker.getServiceObject(), 'click', function(evt) {
-								  		window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage2_path %>");
+									google.maps.event.addListener(marker.getServiceObject(), 'dblclick', function(evt) {
+								  		window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>");
 									});
 								}		
 								handler.bounds.extendWith(markers);
@@ -109,20 +109,39 @@
   								markers[i].setMap(null);
   								handler.removeMarkers(markers);
   							}
-
-  							markers = [];
-  							//console.log(result);
+  							markers = [];						
   					 		markers = handler.addMarkers(result);	
-  					 		for (var j = 0; j < markers.length; j++) {
-  									var marker = markers[j];
-									google.maps.event.addListener(marker.getServiceObject(), 'dblclick', function(evt) {
 
-										var data_one = "Great, Worked!"
-										$.post("<%= Rails.application.routes.url_helpers.mappage_singledronepage2_path %>", {lat: "32.787"});
-								  		window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage2_path %>");
-									});
-								}		
   					 		_.each(result, function(json, index){
+  					 			//--### Newly Updated ### ---
+								var marker = markers[index];						
+								google.maps.event.addListener(marker.getServiceObject(), 'dblclick', function(evt) {
+
+									var mydrone = result[index];
+									delete mydrone['marker'];
+									var single_marker = [];
+									single_marker.push(mydrone); 
+									console.log(mydrone);
+									string_mydrone = JSON.stringify(mydrone);
+									//string_mymarker = JSON.stringify(single_marker);
+									console.log(string_mydrone);
+									//console.log(single_marker);
+									//post_data();
+									// function post_data(){
+					  		// 			$.ajax({
+					  		// 				url: "<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>",
+					  		// 				type: "POST",
+					  		// 				data: string_mydrone,
+					  		// 				dataType: "json",					  						
+					  		// 				contentType: 'application/json',
+					  		// 				cache: false	  						
+					  		// 			})
+					  		// 		};
+					  				$.post('<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>', {string_marker: string_mydrone});
+					  				window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>");
+								});
+
+  					 			//--### ---------------------
   					 			var marker = markers[index];
   					 			json.marker = marker;
   					 			google.maps.event.addListener(marker.getServiceObject(), 'mouseover', function(){

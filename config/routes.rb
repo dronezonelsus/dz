@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   get 'mappage/index'
   get 'mappage/secondindex'
-  get 'mappage/singledronepage2'
+  post 'mappage/singledronepage'
+  get 'mappage/singledronepage'
 
   # Session routes
   get    '/login',   to: 'sessions#new'
