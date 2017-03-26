@@ -10,10 +10,12 @@
 			var iconBase;
 			var map;
 			var mapOptions;
-
+			var lat = <%= raw flash[:notice]['lat'].to_json %>;
+			var lng = <%= raw flash[:notice]['lng'].to_json %>;
+			var info = <%= raw flash[:notice]['infowindow'].to_json %>
 			//Load single marker (drone) on the map
 			$(document).ready(function(){
-				myLatlng = new google.maps.LatLng(<%= raw flash[:notice]['lat'].to_json %>,<%= raw flash[:notice]['lng'].to_json %>);
+				myLatlng = new google.maps.LatLng(lat,lng);
 				mapOptions = {
 				  zoom: 18,
 				  center: myLatlng
@@ -22,7 +24,7 @@
 				iconBase = "<%= ActionController::Base.helpers.asset_path('DroneMap.png') %>";
 				marker = new google.maps.Marker({
 				    position: myLatlng,
-				    title:<%= raw flash[:notice]['infowindow'].to_json %>,
+				    title: info,
 				    icon: iconBase
 				});
 				// To add the marker to the map, call setMap();
