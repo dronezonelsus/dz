@@ -51,7 +51,7 @@ class DronesController < ApplicationController
         format.html { render :new }
         format.json { render json: @drone.errors, status: :unprocessable_entity }
         format.js
-ß      end
+      end
     end
   end
 
