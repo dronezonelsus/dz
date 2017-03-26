@@ -33,9 +33,7 @@ class MappageController < ApplicationController
     respond_to do |format|
       format.json {
         @parsed_drone = JSON.parse(@postedHash.to_json)
-        puts "Parsed postedHash: " +  @parsed_drone['0']['lat']
         @final_drone = JSON.parse(@parsed_drone['0'].to_json)
-        puts "Lat is : " + @final_drone['infowindow']
 
         @secondHash = Gmaps4rails.build_markers(@final_drone) do |drone, marker| 
           drone = JSON.parse(@parsed_drone['0'].to_json)
@@ -50,7 +48,6 @@ class MappageController < ApplicationController
         end
 
         flash[:notice] = @secondHash[0]
-        puts "This is flash: " + flash[:notice].to_s
         render json: flash[:notice]
       }
       format.html{}
