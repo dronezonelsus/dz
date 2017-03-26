@@ -25,19 +25,21 @@
   			
   			<script type="text/javascript">
 
-  				//Build Google Maps using Gmaps
+  				// Build Google Maps using Gmaps
   				var handler = Gmaps.build('Google', { markers: {}});
 
-  				//Load initial markers (drones) on the map by calling the initial_load() function
+  				// Load initial markers (drones) on the map by calling the initial_load() function
 				$(document).ready(function(){
 					initial_load();
-					//Call ajax function (auto_load()) every 5 seconds
+					// Call ajax auto_load function every 5 seconds
 	    			setInterval(auto_load, 5000);
 	    		});
 
-				//Load initial markers (drones) on the map 
+				// Load initial markers (drones) on the map 
 				function initial_load(){	
+					// Markers array
 					markers = [];
+					// Ajax to retrieve all drones from mappage controller index action
   					$.ajax({
   						type: "GET",
   						url: "<%= Rails.application.routes.url_helpers.mappage_index_path %>",
@@ -46,21 +48,35 @@
   						dataType: "json",
   						data: <%= raw @hash.to_json %>,
   						success: function(result){  
-
   							handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
   								markers = handler.addMarkers(result); 		
   								for (var j = 0; j < markers.length; j++) {
   									var marker = markers[j];
-									google.maps.event.addListener(marker.getServiceObject(), 'dblclick', function(evt) {
-								  		window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>");
-									});
 								}		
 								handler.bounds.extendWith(markers);
 								handler.fitMapToBounds(markers);	
 
+								// Make each drone icon listen to a double-click event and a new browser tab and the event 
 								_.each(result, function(json, index){
-	  					 			var marker = markers[index];
+	  					 			var marker = markers[index];					
+									google.maps.event.addListener(marker.getServiceObject(), 'dblclick', function(evt) {
+									var mydrone = result[index];
+									delete mydrone['marker']; // Delete what's causing mydrone to become a circular structure
+									var test_array = [];
+									test_array.push(mydrone);
+									console.log(mydrone);
+									string_mydrone = JSON.stringify(mydrone);
+									console.log(string_mydrone);
+									console.log(test_array);
+
+									// Send (POST) double-clicked drone icon's data to mappage controller : singledronepage action 
+					  				$.post('<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>', {string_marker: test_array});
+					  				// Open new browser tab
+					  				window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>");
+								});
+
 	  					 			json.marker = marker;
+	  					 			// Add mouseover event listener to drones to display infowindow data 
 	  					 			google.maps.event.addListener(marker.getServiceObject(), 'mouseover', function(){
 							          google.maps.event.trigger(marker.getServiceObject(), 'click');
 							        });
@@ -73,27 +89,6 @@
 		  				}
 		    		});
 	    		};
-
-	    		function createSidebarLi(json){
-	    			return ("<li><a>" + json.lat + " " + json.lng + "</a></li>");
-	    		};
-
-	    		function bindLiToMarker($li, marker){
-	    			$li.on('click', function(){
-	    				//handler.getMap().setZoom(14);
-	    				//marker.panTo();
-				        google.maps.event.trigger(marker.getServiceObject(), 'click');
-	    			})
-	    		};
-
-	    		function createSidebar(json_array){
-			      _.each(json_array, function(json){
-			        var $li = $( createSidebarLi(json) );	
-			        //$("#drone_name").html("");		        
-			        //$li.appendTo('#drone_name');
-			        bindLiToMarker($li, json.marker);
-			      });
-			    };
 
 	    		//Make calls at an interval to reload the map
   				function auto_load(){	
@@ -116,28 +111,16 @@
   					 			//--### Newly Updated ### ---
 								var marker = markers[index];						
 								google.maps.event.addListener(marker.getServiceObject(), 'dblclick', function(evt) {
-
 									var mydrone = result[index];
-									delete mydrone['marker'];
-									var single_marker = [];
-									single_marker.push(mydrone); 
+									delete mydrone['marker']; //Delete what's causing mydrone to become a circular structure
+									var test_array = [];
+									test_array.push(mydrone);
 									console.log(mydrone);
 									string_mydrone = JSON.stringify(mydrone);
-									//string_mymarker = JSON.stringify(single_marker);
 									console.log(string_mydrone);
-									//console.log(single_marker);
-									//post_data();
-									// function post_data(){
-					  		// 			$.ajax({
-					  		// 				url: "<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>",
-					  		// 				type: "POST",
-					  		// 				data: string_mydrone,
-					  		// 				dataType: "json",					  						
-					  		// 				contentType: 'application/json',
-					  		// 				cache: false	  						
-					  		// 			})
-					  		// 		};
-					  				$.post('<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>', {string_marker: string_mydrone});
+									console.log(test_array);
+
+					  				$.post('<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>', {string_marker: test_array});
 					  				window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>");
 								});
 
@@ -148,7 +131,7 @@
 						          google.maps.event.trigger(marker.getServiceObject(), 'click');
 						        });
   					 		});
-  					 		createSidebar(result);	
+  					 		//createSidebar(result);	
   					 		//$("#drone_name").empty();
 		  				},
 		  				error: function(XMLHttpResquestm, textStatus, errorThrown){
