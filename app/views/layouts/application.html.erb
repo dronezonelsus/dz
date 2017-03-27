@@ -31,17 +31,18 @@
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));</script>
 
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" style="height:65px;">
   <div class="container">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <div class="navbar-collapse collapse">
+    <a class="navbar-brand" href="/" style="padding: 15px;"><img src="<%= asset_path('DroneZone_Logo4.png')%>" alt="DroneZone"></a>
+    <div class="navbar-collapse collapse" style="padding: 10px;">
       <ul class="nav navbar-nav">
-        <li class="active">
-          <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
+        <li class="active" >
+          <a href="/"><span class="glyphicon glyphicon-home"></span> Home </a>
         </li>
         <li>
           <a href="https://devcenter.heroku.com/articles/how-heroku-works"><span class="glyphicon glyphicon-user"></span> How DroneZone Works</a>
