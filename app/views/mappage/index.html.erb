@@ -26,10 +26,9 @@
   			<script type="text/javascript">
 
   				// Build Google Maps using Gmaps
-  				var handler = Gmaps.build('Google', { markers: {}});
-
-  				// Load initial markers (drones) on the map by calling the initial_load() function
+  				var handler = Gmaps.build('Google', { markers: {}});			
 				$(document).ready(function(){
+					// Load initial markers (drones) on the map by calling the initial_load() function
 					initial_load();
 					// Call ajax auto_load function every 5 seconds
 	    			setInterval(auto_load, 5000);
@@ -58,30 +57,29 @@
 
 								// Make each drone icon listen to a double-click event and a new browser tab and the event 
 								_.each(result, function(json, index){
-	  					 			var marker = markers[index];					
+	  					 			var marker = markers[index];	
+	  					 			json.marker = marker;
+	  					 			// Add mouseover event listener to drones to display infowindow data 
+	  					 			google.maps.event.addListener(marker.getServiceObject(), 'mouseover', function(){
+							          google.maps.event.trigger(marker.getServiceObject(), 'click');
+							        });
+							        				
 									google.maps.event.addListener(marker.getServiceObject(), 'dblclick', function(evt) {
 									var mydrone = result[index];
 									delete mydrone['marker']; // Delete what's causing mydrone to become a circular structure
 									var test_array = [];
 									test_array.push(mydrone);
-									console.log(mydrone);
-									string_mydrone = JSON.stringify(mydrone);
-									console.log(string_mydrone);
-									console.log(test_array);
+									//console.log(mydrone);
+									//string_mydrone = JSON.stringify(mydrone);
+									//console.log(string_mydrone);
+									//console.log(test_array);
 
 									// Send (POST) double-clicked drone icon's data to mappage controller : singledronepage action 
 					  				$.post('<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>', {string_marker: test_array});
 					  				// Open new browser tab
 					  				window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>");
 								});
-
-	  					 			json.marker = marker;
-	  					 			// Add mouseover event listener to drones to display infowindow data 
-	  					 			google.maps.event.addListener(marker.getServiceObject(), 'mouseover', function(){
-							          google.maps.event.trigger(marker.getServiceObject(), 'click');
-							        });
   					 			});
-
 							});
 		  				},
 		  				error: function(XMLHttpResquestm, textStatus, errorThrown){
@@ -109,30 +107,25 @@
 
   					 		_.each(result, function(json, index){
   					 			//--### Newly Updated ### ---
-								var marker = markers[index];						
+								var marker = markers[index];	
+								json.marker = marker;
+  					 			google.maps.event.addListener(marker.getServiceObject(), 'mouseover', function(){
+						          google.maps.event.trigger(marker.getServiceObject(), 'click');
+						        });					
 								google.maps.event.addListener(marker.getServiceObject(), 'dblclick', function(evt) {
 									var mydrone = result[index];
 									delete mydrone['marker']; //Delete what's causing mydrone to become a circular structure
 									var test_array = [];
 									test_array.push(mydrone);
-									console.log(mydrone);
-									string_mydrone = JSON.stringify(mydrone);
-									console.log(string_mydrone);
-									console.log(test_array);
+									//console.log(mydrone);
+									//string_mydrone = JSON.stringify(mydrone);
+									//console.log(string_mydrone);
+									//console.log(test_array);
 
 					  				$.post('<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>', {string_marker: test_array});
 					  				window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>");
 								});
-
-  					 			//--### ---------------------
-  					 			var marker = markers[index];
-  					 			json.marker = marker;
-  					 			google.maps.event.addListener(marker.getServiceObject(), 'mouseover', function(){
-						          google.maps.event.trigger(marker.getServiceObject(), 'click');
-						        });
   					 		});
-  					 		//createSidebar(result);	
-  					 		//$("#drone_name").empty();
 		  				},
 		  				error: function(XMLHttpResquestm, textStatus, errorThrown){
 		  					console.log(textStatus, errorThrown);

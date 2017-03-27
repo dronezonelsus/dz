@@ -25,9 +25,9 @@ class MappageController < ApplicationController
   end
  
   def singledronepage
-    flash.keep
-    @myhash = Hash.new
-    @myhash[:clickedDrone] = params[:string_marker] 
+    #flash.keep
+    #@myhash = Hash.new
+    #@myhash[:clickedDrone] = params[:string_marker] 
     @postedHash = params[:string_marker]
    
     respond_to do |format|
