@@ -28,8 +28,9 @@ class MappageController < ApplicationController
     #flash.keep
     #@myhash = Hash.new
     #@myhash[:clickedDrone] = params[:string_marker] 
-    @postedHash = params[:string_marker]
+    @postedHash = params[:string_marker] # Pass POSTed parameter to postedHash variable
     
+    # Parse and render json object of double-clicked drone icon from index.html.erb view
     respond_to do |format|
       format.json {
         @parsed_drone = JSON.parse(@postedHash.to_json)
@@ -46,8 +47,8 @@ class MappageController < ApplicationController
             :height => 60
           })
         end
-
         flash[:notice] = @secondHash[0]
+        #flash.keep
         render json: flash[:notice]
       }
       format.html{}

@@ -135,3 +135,23 @@
 #flightInformationTable table{
 	width: 100%;
 }
+
+/* Warnings Data Style */
+#flightWarningsDiv{
+	background-color: rgba(158, 163, 166, 0.3);
+	border-top: thick solid rgba(158, 163, 166, 1);
+	margin-top: 20px;
+	height: 30px;
+}
+#flightWarningsDiv h5{
+	font-family: Arial black, Helvetica, sans-serif;
+	color: rgba(255, 91, 0, 0.8);
+	font-size: 15px;
+	margin: 5px;
+	margin-left: 1px;
+}
+#flightWarningsTable{
+	margin-top: 4px;
+	color: rgba(255, 91, 0, 1);
+	font-size: 12px;
+}
