@@ -58,12 +58,12 @@
 								// Make each drone icon listen to a double-click event and a new browser tab and the event 
 								_.each(result, function(json, index){
 	  					 			var marker = markers[index];	
-	  					 			json.marker = marker;
+	  					 			//json.marker = marker;
 	  					 			// Add mouseover event listener to drones to display infowindow data 
 	  					 			google.maps.event.addListener(marker.getServiceObject(), 'mouseover', function(){
 							          google.maps.event.trigger(marker.getServiceObject(), 'click');
 							        });
-							        				
+
 									google.maps.event.addListener(marker.getServiceObject(), 'dblclick', function(evt) {
 									var mydrone = result[index];
 									delete mydrone['marker']; // Delete what's causing mydrone to become a circular structure
@@ -108,7 +108,7 @@
   					 		_.each(result, function(json, index){
   					 			//--### Newly Updated ### ---
 								var marker = markers[index];	
-								json.marker = marker;
+								//json.marker = marker;
   					 			google.maps.event.addListener(marker.getServiceObject(), 'mouseover', function(){
 						          google.maps.event.trigger(marker.getServiceObject(), 'click');
 						        });					
