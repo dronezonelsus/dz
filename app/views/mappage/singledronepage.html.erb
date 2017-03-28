@@ -22,6 +22,9 @@
 				var lng = <%= raw flash[:notice]['lng'] %>;
 				var info = <%= raw flash[:notice]['infowindow'].to_json %>
 				var drone_name;
+				var droneLat;
+				var droneLng;
+
 				//Load single marker (drone) on the map
 				$(document).ready(function(){
 					myLatlng = new google.maps.LatLng(lat,lng);
@@ -38,10 +41,17 @@
 					});
 					// To add the marker to the map, call setMap();
 					marker.setMap(map);
-					//document.getElementById("droneName").innerHTML = "";
+					// Display drone name
 					drone_name = document.getElementById("droneName");
 					drone_name.innerHTML = marker.getTitle();
+					// Display drone latitude
+					drone_lat = document.getElementById("droneLat");
+					drone_lat.innerHTML = marker.getPosition().lat();
+					// Display drone longitude
+					drone_lng = document.getElementById("droneLng");
+					drone_lng.innerHTML = marker.getPosition().lng();
 					//Call ajax auto_load function every 5 seconds to reload marker on map 
+
 					setInterval(auto_load, 5000);
 				});
 
@@ -99,9 +109,16 @@
 									marker.setMap(map);
 									//console.log(result[i]);
 					 				//createSidebarLi(result);
-					 				document.getElementById("droneName").innerHTML = "";
-					 				drone_name = document.getElementById("droneName");
-					 				drone_name.innerHTML = marker.getTitle();
+
+					 				// Display drone name
+									drone_name = document.getElementById("droneName");
+									drone_name.innerHTML = marker.getTitle();
+									// Display drone latitude
+									drone_lat = document.getElementById("droneLat");
+									drone_lat.innerHTML = marker.getPosition().lat();
+									// Display drone longitude
+									drone_lng = document.getElementById("droneLng");
+									drone_lng.innerHTML = marker.getPosition().lng();
 								}
 							}
 	  					},
@@ -187,7 +204,7 @@
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12" id ="flightInformationDiv">
 					<!--<div id="droneName"></div>-->
-					<h5>FLIGHT INFORMATION</h5>
+					<h5>FLIGHT TELEMETRY</h5>
 				</div>
 			</div>
 
@@ -198,15 +215,32 @@
 							<th>Latitude</th>
 							<th>Longitude</th>
 							<th>Speed</th>
+							<th>Distance</th>
 						</tr>
 						<tr>
 							<td id="droneLat">Current Latitude...</td>
 							<td id="droneLng">Current Longitude...</td>
 							<td id="droneSpeed">Current Speed...</td>
+							<td id="droneDistance">Distance to Destination...</td>
 						</tr>
 					</table>
 				</div>
 			</div>
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12" id ="flightWarningsDiv">
+					<!--<div id="droneName"></div>-->
+					<h5>WARNINGS</h5>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12" id="flightWarningsTable">
+					<h5>No-Fly Zone<span style="padding-left: 1em; font-weight: normal; font-style: italic;">Placeholder...</span>
+					</h5>
+				</div>
+			</div>
+
+
 
 		</div>
 	</div>
