@@ -18,8 +18,8 @@
 				var iconBase;
 				var map;
 				var mapOptions;
-				var lat = <%= raw flash[:notice]['lat'].to_json %>;
-				var lng = <%= raw flash[:notice]['lng'].to_json %>;
+				var lat = <%= raw flash[:notice]['lat'] %>;
+				var lng = <%= raw flash[:notice]['lng'] %>;
 				var info = <%= raw flash[:notice]['infowindow'].to_json %>
 				var drone_name;
 				//Load single marker (drone) on the map
@@ -38,7 +38,7 @@
 					});
 					// To add the marker to the map, call setMap();
 					marker.setMap(map);
-					document.getElementById("droneName").innerHTML = "";
+					//document.getElementById("droneName").innerHTML = "";
 					drone_name = document.getElementById("droneName");
 					drone_name.innerHTML = marker.getTitle();
 					//Call ajax auto_load function every 5 seconds to reload marker on map 
@@ -49,13 +49,13 @@
 		    		return ("<li><a>" + json.lat + " " + json.lng + "</a></li>");
 		    	};
 
-	    		function bindLiToMarker($li, marker){
-	    			$li.on('click', function(){
-	    				//handler.getMap().setZoom(14);
-	    				//marker.panTo();
-				        google.maps.event.trigger(marker.getServiceObject(), 'click');
-	    			})
-	    		};
+	    		// function bindLiToMarker($li, marker){
+	    		// 	$li.on('click', function(){
+	    		// 		//handler.getMap().setZoom(14);
+	    		// 		//marker.panTo();
+				   //      google.maps.event.trigger(marker.getServiceObject(), 'click');
+	    		// 	})
+	    		// };
 
 	    		function createSidebar(json_array){
 			      _.each(json_array, function(json){
@@ -177,9 +177,9 @@
 
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12" id="droneInfoTable">
-					<h5>Company Name<span style="padding-left: 1em; font-weight: normal; font-style: italic;">Name Placeholder</span>
+					<h5>Company Name<span style="padding-left: 1em; font-weight: normal; font-style: italic;">Name Placeholder...</span>
 					</h5>
-					<h5>Drone Name<span style="padding-left: 2.5em; font-weight: normal; font-style: italic;" id="droneName">Name Placeholder</span>
+					<h5>Drone Name<span style="padding-left: 2.5em; font-weight: normal; font-style: italic;" id="droneName">Name Placeholder...</span>
 					</h5>
 				</div>
 			</div>
@@ -200,9 +200,9 @@
 							<th>Speed</th>
 						</tr>
 						<tr>
-							<td id="droneLat"></td>
-							<td id="droneLng">Flight State</td>
-							<td id="droneSpeed">Flight Country</td>
+							<td id="droneLat">Current Latitude...</td>
+							<td id="droneLng">Current Longitude...</td>
+							<td id="droneSpeed">Current Speed...</td>
 						</tr>
 					</table>
 				</div>
