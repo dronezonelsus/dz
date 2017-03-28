@@ -29,7 +29,7 @@ class MappageController < ApplicationController
     #@myhash = Hash.new
     #@myhash[:clickedDrone] = params[:string_marker] 
     @postedHash = params[:string_marker]
-   
+    
     respond_to do |format|
       format.json {
         @parsed_drone = JSON.parse(@postedHash.to_json)
