@@ -1,0 +1,264 @@
+<script src="//maps.google.com/maps/api/js?key=AIzaSyA2b6Qe48bvmxyYCCr1sA1QqrXCG8dJuYk"></script>
+<script src="//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"></script>
+<script src='//cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js' type='text/javascript'></script> <!-- only if you need custom infoboxes -->
+
+<p id="notice"><%= notice %></p>
+<div class="container body_padding" style="padding:10px; padding-bottom:50px;   /* Set relative to Height of the footer */" >
+	<div class="row">
+		<div class="col-lg-8 col-md-7 col-sm-12" id="divAboveMap">
+			<p>Live Tracking</p>
+		</div>
+	</div>
+	<div class="row">
+		<div id="single_page_map" class="pos col-lg-8 col-md-7 col-sm-12" style='height: 700px;'>
+			<script type="text/javascript">
+				// Declare globally needed variables for the single map marker
+				var marker;
+				var myLatlng;
+				var iconBase;
+				var map;
+				var mapOptions;
+				var lat = <%= raw flash[:notice]['lat'] %>;
+				var lng = <%= raw flash[:notice]['lng'] %>;
+				var info = <%= raw flash[:notice]['infowindow'].to_json %>
+				var drone_name;
+				var droneLat;
+				var droneLng;
+
+				//Load single marker (drone) on the map
+				$(document).ready(function(){
+					myLatlng = new google.maps.LatLng(lat,lng);
+					mapOptions = {
+					  zoom: 18,
+					  center: myLatlng
+					}
+					map = new google.maps.Map(document.getElementById("single_page_map"), mapOptions);
+					iconBase = "<%= ActionController::Base.helpers.asset_path('DroneMap.png') %>";
+					marker = new google.maps.Marker({
+					    position: myLatlng,
+					    title: info,
+					    icon: iconBase
+					});
+					var triangleCoords = [
+			          {lat: 25.774, lng: -80.190},
+			          {lat: 18.466, lng: -66.118},
+			          {lat: 32.778, lng: -96.797},
+			          {lat: 25.774, lng: -80.190}
+			        ];
+
+			        // Construct the polygon.
+			        var bermudaTriangle = new google.maps.Polygon({
+			          paths: triangleCoords,
+			          strokeColor: '#FF0000',
+			          strokeOpacity: 0.8,
+			          strokeWeight: 2,
+			          fillColor: '#FF0000',
+			          fillOpacity: 0.35
+			        });
+			        bermudaTriangle.setMap(map);
+					// To add the marker to the map, call setMap();
+					marker.setMap(map);
+					// Display drone name
+					drone_name = document.getElementById("droneName");
+					drone_name.innerHTML = marker.getTitle();
+					// Display drone latitude
+					drone_lat = document.getElementById("droneLat");
+					drone_lat.innerHTML = marker.getPosition().lat();
+					// Display drone longitude
+					drone_lng = document.getElementById("droneLng");
+					drone_lng.innerHTML = marker.getPosition().lng();
+					//Call ajax auto_load function every 5 seconds to reload marker on map 
+
+					setInterval(auto_load, 5000);
+				});
+
+				function createSidebarLi(json){
+		    		return ("<li><a>" + json.lat + " " + json.lng + "</a></li>");
+		    	};
+
+	    		// function bindLiToMarker($li, marker){
+	    		// 	$li.on('click', function(){
+	    		// 		//handler.getMap().setZoom(14);
+	    		// 		//marker.panTo();
+				   //      google.maps.event.trigger(marker.getServiceObject(), 'click');
+	    		// 	})
+	    		// };
+
+	    		function createSidebar(json_array){
+			      _.each(json_array, function(json){
+			        var $li = $( createSidebarLi(json) );	
+			        //$("#drone_name").html("");		        
+			        //$li.appendTo('#drone_name');
+			        bindLiToMarker($li, json.marker);
+			      });
+			    };
+
+				//Make calls at an interval to reload the map
+				function auto_load(){	
+					//Ajax function to get marker data from mappage controller : index action 
+					$.ajax({
+						type: "GET",
+						url: "<%= Rails.application.routes.url_helpers.mappage_index_path %>",
+						cache: false,
+						contentType: 'application/json',
+						dataType: "json",
+						data: <%= raw @hash.to_json %>,
+						success: function(result){  
+							//console.log(result);
+							//console.log(marker.getTitle());
+							for(var i = 0; i < result.length; i++){
+								//Precondition: Clicked drone from initial view (mappage#index) is the same as one of the drones on initial view 
+								if( result[i]['infowindow'] == marker.getTitle() ){
+									//Remove marker icon from map 
+									marker.setMap(null);
+									//Rebuild map marker with data recieved from mappage controller : index action
+									myLatlng = new google.maps.LatLng(result[i]['lat'], result[i]['lng']);
+									mapOptions = {
+									  zoom: 18,
+									  center: myLatlng
+									}
+									marker = new google.maps.Marker({
+									    position: myLatlng,
+									    title: result[i]['infowindow'],
+									    icon: iconBase
+									});
+									// To add the marker to the map, call setMap();
+									marker.setMap(map);
+									//console.log(result[i]);
+					 				//createSidebarLi(result);
+
+					 				// Display drone name
+									drone_name = document.getElementById("droneName");
+									drone_name.innerHTML = marker.getTitle();
+									// Display drone latitude
+									drone_lat = document.getElementById("droneLat");
+									drone_lat.innerHTML = marker.getPosition().lat();
+									// Display drone longitude
+									drone_lng = document.getElementById("droneLng");
+									drone_lng.innerHTML = marker.getPosition().lng();
+								}
+							}
+	  					},
+	  					error: function(XMLHttpResquestm, textStatus, errorThrown){
+	  						console.log(textStatus, errorThrown);
+	  					}
+	    			});	
+				};
+			</script>
+		</div>
+		
+		<div class="col-lg-4 col-lg-offset-0 col-md-5 col-md-offset-0 col-sm-12 col-sm-offset-0" id="infoSideBar">	
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12" id="flightDataTitleDiv">
+					<p id="flightData">Flight Details</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12" id ="flightDataOriginDiv">
+					<!--<div id="droneName"></div>-->
+					<h5>FLIGHT ORIGIN</h5>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12" id="originTable">
+					<table>
+						<tr>
+							<th>City</th>
+							<th>State</th>
+							<th>Country</th>
+						</tr>
+						<tr>
+							<td>Flight City</td>
+							<td>Flight State</td>
+							<td>Flight Country</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12" id ="flightDataDestinationDiv">
+					<!--<div id="droneName"></div>-->
+					<h5>FLIGHT DESTINATION</h5>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12" id="destinationTable">
+					<table>
+						<tr>
+							<th>City</th>
+							<th>State</th>
+							<th>Country</th>
+						</tr>
+						<tr>
+							<td>Flight City</td>
+							<td>Flight State</td>
+							<td>Flight Country</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12" id ="flightDataDroneInfoDiv">
+					<!--<div id="droneName"></div>-->
+					<h5>DRONE INFORMATION</h5>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12" id="droneInfoTable">
+					<h5><strong id="companyName">Company Name</strong><span style="padding-left: 1em; font-weight: normal; font-style: italic;">Name Placeholder...</span>
+					</h5>
+					<h5><strong id="droneName">Drone Name</strong><span style="padding-left: 2.5em; font-weight: normal; font-style: italic;" id="droneName">Name Placeholder...</span>
+					</h5>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12" id ="flightInformationDiv">
+					<!--<div id="droneName"></div>-->
+					<h5>FLIGHT TELEMETRY</h5>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12" id="flightInformationTable">
+					<table>
+						<tr>
+							<th>Latitude</th>
+							<th>Longitude</th>
+							<th>Speed</th>
+							<th>Distance</th>
+						</tr>
+						<tr>
+							<td id="droneLat">Current Latitude...</td>
+							<td id="droneLng">Current Longitude...</td>
+							<td id="droneSpeed">Current Speed...</td>
+							<td id="droneDistance">Distance to Destination...</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12" id ="flightWarningsDiv">
+					<!--<div id="droneName"></div>-->
+					<h5>WARNINGS</h5>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12" id="flightWarningsTable">
+					<h5><strong id="noFlyZone">No-Fly Zone</strong><span style="padding-left: 1em; font-weight: normal; font-style: italic;">Placeholder...</span>
+					</h5>
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+</div>

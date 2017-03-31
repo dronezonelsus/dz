@@ -1,0 +1,43 @@
+<div style="margin-top: 5%;">
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>First Name:</strong>
+  <%= @user.first_name %>
+</p>
+
+<p>
+  <strong>Last Name:</strong>
+  <%= @user.last_name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @user.status %>
+</p>
+
+<p>
+  <strong>Member Since:</strong>
+  <%= @user.created_at %>
+</p>
+
+<p>
+  <strong>Last Login:</strong>
+  <%= @user.last_login %>
+</p>
+
+<p>
+  <strong>Company Name:</strong>
+  <%= @user.company_name %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>
+</div>
