@@ -70,28 +70,36 @@ video {
 }
 
 #registerDrone{
-	position: relative;
 	margin-top: 650px;
 	text-align: center;
 	font-size: 20px;
 }
 
 //--Style Target Industries Div
-#industriesContainer1{
-	
+.industriesDiv{
 	width: 320px;
 	height: 200px;
+	border-top: thick solid rgba(0,0,0,0.7);
+	border-bottom: thick solid rgba(0,0,0,0.7);
+}
+#industriesContainer1{
 	background: image-url('DroneOperator.jpg');
 }
 #industriesContainer2{
-	background-color: rgba(0,0,0,0.6);
-	width: 320px;
-	height: 200px;
 	background: image-url('DroneGovernment.jpg');
 }
 #industriesContainer3{
-	background-color: rgba(0,0,0,0.6);
-	width: 320px;
-	height: 200px;
 	background: image-url('DroneManufacturers.jpg');
+}
+
+#industriesContainer4{
+	background: image-url('DroneZoneIndustryFarmer.jpg');
+}
+#industriesContainer5{
+	background: image-url('DroneZoneIndustryDelivery.jpg');
+}
+.targetHeaders h4{
+	background-color: rgba(217,83,79,0.9);
+	padding: 10px;
+	color: rgba(255,255,255,1);
 }

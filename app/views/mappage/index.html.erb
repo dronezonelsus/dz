@@ -65,6 +65,9 @@
 										delete mydrone['marker']; // Delete what's causing mydrone to become a circular structure
 										var test_array = [];
 										test_array.push(mydrone);
+										localStorage.setItem("latitude", mydrone['lat']);
+										localStorage.setItem("longitude", mydrone['lng']);
+										localStorage.setItem("infowindow", mydrone['infowindow']);
 										//console.log(mydrone);
 										//string_mydrone = JSON.stringify(mydrone);
 										//console.log(string_mydrone);
@@ -121,6 +124,12 @@
 									delete mydrone['marker']; //Delete what's causing mydrone to become a circular structure
 									var test_array = [];
 									test_array.push(mydrone);
+
+									var id = JSON.parse(result[index]);
+									localStorage.setItem("id", id);
+									localStorage.setItem("latitude", mydrone['lat']);
+									localStorage.setItem("longitude", mydrone['lng']);
+									localStorage.setItem("infowindow", mydrone['infowindow']);
 									//console.log(mydrone);
 									//string_mydrone = JSON.stringify(mydrone);
 									//console.log(string_mydrone);
