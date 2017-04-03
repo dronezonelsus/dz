@@ -38,7 +38,7 @@
 }
 #flightDataOriginDiv h5{
 	font-family: Arial black, Helvetica, sans-serif;
-	color: rgba(255, 91, 0, 0.8);
+	color: rgba(0, 0, 0, 0.8);
 	font-size: 15px;
 	margin: 5px;
 	margin-left: 1px;
@@ -51,8 +51,9 @@
 	font-size: 12px;
 }
 #originTable tr{
-	color: rgba(255, 91, 0, 1);
+	color: rgba(0, 0, 0, 1);
 	font-size: 12px;
+	font-weight: bold;
 }
 #originTable table{
 	width: 100%;
@@ -67,7 +68,7 @@
 }
 #flightDataDestinationDiv h5{
 	font-family: Arial black, Helvetica, sans-serif;
-	color: rgba(255, 91, 0, 0.8);
+	color: rgba(0, 0, 0, 0.8);
 	font-size: 15px;
 	margin: 5px;
 	margin-left: 1px;
@@ -75,13 +76,14 @@
 #destinationTable{
 	margin-top: 5px;
 }
-#destinationTable tr{
+#destinationTable th{
 	color: rgba(255, 91, 0, 1);
 	font-size: 12px;
 }
 #destinationTable tr{
-	color: rgba(255, 91, 0, 1);
+	color: rgba(0, 0, 0, 1);
 	font-size: 12px;
+	font-weight: bold;
 }
 #destinationTable table{
 	width: 100%;
@@ -96,12 +98,12 @@
 }
 #flightDataDroneInfoDiv h5{
 	font-family: Arial black, Helvetica, sans-serif;
-	color: rgba(255, 91, 0, 0.8);
+	color: rgba(0, 0, 0, 0.8);
 	font-size: 15px;
 	margin: 5px;
 	margin-left: 1px;
 }
-#droneInfoTable{
+#droneInfoTable strong{
 	margin-top: 5px;
 	color: rgba(255, 91, 0, 1);
 	font-size: 12px;
@@ -116,7 +118,7 @@
 }
 #flightInformationDiv h5{
 	font-family: Arial black, Helvetica, sans-serif;
-	color: rgba(255, 91, 0, 0.8);
+	color: rgba(0, 0, 0, 0.8);
 	font-size: 15px;
 	margin: 5px;
 	margin-left: 1px;
@@ -124,13 +126,14 @@
 #flightInformationTable{
 	margin-top: 5px;
 }
-#flightInformationTable tr{
+#flightInformationTable th{
 	color: rgba(255, 91, 0, 1);
 	font-size: 12px;
 }
 #flightInformationTable tr{
-	color: rgba(255, 91, 0, 1);
+	color: rgba(0, 0, 0, 1);
 	font-size: 12px;
+	font-weight: bold;
 }
 #flightInformationTable table{
 	width: 100%;
@@ -145,13 +148,13 @@
 }
 #flightWarningsDiv h5{
 	font-family: Arial black, Helvetica, sans-serif;
-	color: rgba(255, 91, 0, 0.8);
+	color: rgba(0, 0, 0, 0.8);
 	font-size: 15px;
 	margin: 5px;
 	margin-left: 1px;
 }
-#flightWarningsTable{
+#flightWarningsTable strong{
 	margin-top: 4px;
 	color: rgba(255, 91, 0, 1);
-	font-size: 12px;
+	font-size: 15px;
 }
