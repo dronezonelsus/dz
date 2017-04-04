@@ -24,71 +24,101 @@
 				var lng;
 				var info;
 				var drone_name;
-				var droneLat;
-				var droneLng;
+				var drone_lat;
+				var drone_lng;
 
 				//Load single marker (drone) on the map
 				$(document).ready(function(){
 					//if(localStorage.getItem("lat") === null){
-					console.log(localStorage.getItem('id'));
-					lat = localStorage.getItem('latitude');
-					//localStorage.setItem('lat', lat);	
-	
-
-					lng = localStorage.getItem('longitude');
-					//localStorage.setItem('lng', lng);
-				
-
-					info = localStorage.getItem('infowindow');
-					//localStorage.setItem('info', info);
-
-					// lat = Number(window.localStorage.getItem('lat'));				
-					// lng = Number(window.localStorage.getItem('lng'));					
-					// info = window.localStorage.getItem('info');
-
-					myLatlng = new google.maps.LatLng(lat,lng);
-					mapOptions = {
-					  zoom: 18,
-					  center: myLatlng
+					//console.log(localStorage.getItem('id'));
+					function getQueryVariable(variable)
+					{
+					       var query = window.location.search.substring(1);
+					       var drone_variables = query.split("&");
+					       for (var i=0;i<drone_variables.length;i++) {
+				               var pair = drone_variables[i].split("=");
+				               if(pair[0] == variable){
+				               	return pair[1];
+				               }
+					       }
+					       return(false);
 					}
-					map = new google.maps.Map(document.getElementById("single_page_map"), mapOptions);
-					iconBase = "<%= ActionController::Base.helpers.asset_path('DroneMap.png') %>";
-					marker = new google.maps.Marker({
-					    position: myLatlng,
-					    title: info,
-					    icon: iconBase
-					});
-					var triangleCoords = [
-			          {lat: 25.774, lng: -80.190},
-			          {lat: 18.466, lng: -66.118},
-			          {lat: 32.778, lng: -96.797},
-			          {lat: 25.774, lng: -80.190}
-			        ];
+					//lat = Number(getQueryVariable("lat"));
+					//localStorage.setItem('lat', lat);	
+					//lng = Number(getQueryVariable("lng"));
+					//localStorage.setItem('lng', lng);				
+					info = getQueryVariable("infowindow");
+					if(info.includes("%20")){
+						info = info.replace("%20", " ");
+					}
+					
+					$.ajax({
+						type: "GET",
+						url: "<%= Rails.application.routes.url_helpers.mappage_index_path %>",
+						cache: false,
+						contentType: 'application/json',
+						dataType: "json",
+						data: <%= raw @hash.to_json %>,
+						success: function(result){  
+							//console.log(result);
+							//console.log(marker.getTitle());
+							for(var i = 0; i < result.length; i++){
+								//Precondition: Clicked drone from initial view (mappage#index) is the same as one of the drones on initial view 
+								if( info == result[i]['infowindow']){
+									console.log(result[i]['infowindow']);
+									//Rebuild map marker with data recieved from mappage controller : index action
+									myLatlng = new google.maps.LatLng(result[i]['lat'], result[i]['lng']);
+									mapOptions = {
+									  zoom: 18,
+									  center: myLatlng
+									}
+									map = new google.maps.Map(document.getElementById("single_page_map"), mapOptions);
+									iconBase = "<%= ActionController::Base.helpers.asset_path('DroneMap.png') %>";
+									marker = new google.maps.Marker({
+									    position: myLatlng,
+									    title: result[i]['infowindow'],
+									    icon: iconBase
+									});
+									// To add the marker to the map, call setMap();
 
-			        // Construct the polygon.
-			        var bermudaTriangle = new google.maps.Polygon({
-			          paths: triangleCoords,
-			          strokeColor: '#FF0000',
-			          strokeOpacity: 0.8,
-			          strokeWeight: 2,
-			          fillColor: '#FF0000',
-			          fillOpacity: 0.35
-			        });
-			        bermudaTriangle.setMap(map);
-					// To add the marker to the map, call setMap();
-					marker.setMap(map);
-					// Display drone name
-					drone_name = document.getElementById("droneName");
-					drone_name.innerHTML = marker.getTitle();
-					// Display drone latitude
-					drone_lat = document.getElementById("droneLat");
-					drone_lat.innerHTML = marker.getPosition().lat();
-					// Display drone longitude
-					drone_lng = document.getElementById("droneLng");
-					drone_lng.innerHTML = marker.getPosition().lng();
-					//Call ajax auto_load function every 5 seconds to reload marker on map 
+									var triangleCoords = [
+							          {lat: 25.774, lng: -80.190},
+							          {lat: 18.466, lng: -66.118},
+							          {lat: 32.778, lng: -96.797},
+							          {lat: 25.774, lng: -80.190}
+							        ];
 
-					setInterval(auto_load, 5000);
+							        // Construct the polygon.
+							        var bermudaTriangle = new google.maps.Polygon({
+							        	paths: triangleCoords,
+							          	strokeColor: '#FF0000',
+							          	strokeOpacity: 0.8,
+							          	strokeWeight: 2,
+							          	fillColor: '#FF0000',
+							          	fillOpacity: 0.35
+							        });
+							        bermudaTriangle.setMap(map);
+									// To add the marker to the map, call setMap();
+									marker.setMap(map);
+									// Display drone name
+									drone_name = document.getElementById("droneName");
+									drone_name.innerHTML = marker.getTitle();
+									// Display drone latitude
+									drone_lat = document.getElementById("droneLat");
+									drone_lat.innerHTML = marker.getPosition().lat();
+									// Display drone longitude
+									drone_lng = document.getElementById("droneLng");
+									drone_lng.innerHTML = marker.getPosition().lng();
+									//Call ajax auto_load function every 5 seconds to reload marker on map 
+
+									setInterval(auto_load, 5000);
+								}
+							}
+	  					},
+	  					error: function(XMLHttpResquestm, textStatus, errorThrown){
+	  						console.log(textStatus, errorThrown);
+	  					}
+	    			});		
 				});
 
 				function createSidebarLi(json){
@@ -141,6 +171,7 @@
 									    title: result[i]['infowindow'],
 									    icon: iconBase
 									});
+
 									// To add the marker to the map, call setMap();
 									marker.setMap(map);
 									//console.log(result[i]);

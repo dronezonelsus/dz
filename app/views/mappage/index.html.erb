@@ -65,7 +65,7 @@
 										delete mydrone['marker']; // Delete what's causing mydrone to become a circular structure
 										var test_array = [];
 										test_array.push(mydrone);
-										localStorage.setItem("latitude", mydrone['lat']);
+										localStorage.setItem("latitude" + index, mydrone['lat']);
 										localStorage.setItem("longitude", mydrone['lng']);
 										localStorage.setItem("infowindow", mydrone['infowindow']);
 										//console.log(mydrone);
@@ -83,7 +83,7 @@
 										}
 										// Open new tab window
 										function openWindowTab(){
-										    window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>");
+										    window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>" + "?infowindow=" + mydrone['infowindow']);
 										};
 									});
   					 			});
@@ -125,8 +125,6 @@
 									var test_array = [];
 									test_array.push(mydrone);
 
-									var id = JSON.parse(result[index]);
-									localStorage.setItem("id", id);
 									localStorage.setItem("latitude", mydrone['lat']);
 									localStorage.setItem("longitude", mydrone['lng']);
 									localStorage.setItem("infowindow", mydrone['infowindow']);
@@ -144,7 +142,7 @@
 									}
 									// Open new tab window
 									function openWindowTab(){
-									    window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>");
+									    window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>" + "?infowindow=" + mydrone['infowindow']);
 									};
 								});
   					 		});
