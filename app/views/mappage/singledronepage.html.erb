@@ -48,10 +48,11 @@
 					//lng = Number(getQueryVariable("lng"));
 					//localStorage.setItem('lng', lng);				
 					info = getQueryVariable("infowindow");
-					if(info.includes("%20")){
+					if(info.indexOf("%20") >= 0){
 						info = info.replace("%20", " ");
 					}
-					
+					console.log(info);
+
 					$.ajax({
 						type: "GET",
 						url: "<%= Rails.application.routes.url_helpers.mappage_index_path %>",
