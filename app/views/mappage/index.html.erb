@@ -13,20 +13,21 @@
 
 <p id="notice"><%= notice %></p>
 
-<div class="container body_padding" style="padding:10px; padding-bottom:50px;   /* Set relative to Height of the footer */ margin-top: 70px;">	
+<div class="container body_margin" style="padding:10px; padding-bottom:50px;   /* Set relative to Height of the footer */ ">	
 	<!-- <marquee behavior="scroll" direction="left" scrollamount="5"><h3 id="marqueeOne" >Live Tracking in Progress...</h3></marquee> -->
 	<div class="row">
-		<div class="col-lg-12 col-md-12 col-sm-12" id="designOne">
-			<h3 style="margin-top: 12.5px;">Live Tracking</h3>
+		<div class="col-lg-12 col-md-12 col-sm-12 panel" id="divAboveMapOne">
+			<p>Live Tracking</p>
 		</div>
 	</div>
 	<div class="row">
-  		<div id="map" class="pos col-lg-8 col-md-7 col-sm-12" style='height: 700px;'> 
+  		<div id="map" class="pos col-lg-12 col-md-12 col-sm-12" style='height: 700px;'> 
   			
   			<script type="text/javascript">
 
   				// Build Google Maps using Gmaps
   				var handler = Gmaps.build('Google', { markers: {}});	
+  				var temp_drone_for_search;
 				$(document).ready(function(){
 					// Load initial markers (drones) on the map by calling the initial_load() function
 					initial_load();
@@ -54,6 +55,7 @@
 								// Make each drone icon listen to a double-click event and a new browser tab and the event 
 								_.each(result, function(json, index){
 	  					 			var marker = markers[index];	
+	  					 			temp_drone_for_search = marker;
 	  					 			//json.marker = marker;
 	  					 			// Add mouseover event listener to drones to display infowindow data 
 	  					 			google.maps.event.addListener(marker.getServiceObject(), 'mouseover', function(){
@@ -63,18 +65,11 @@
 									google.maps.event.addListener(marker.getServiceObject(), 'dblclick', function(evt) {
 										var mydrone = result[index];
 										delete mydrone['marker']; // Delete what's causing mydrone to become a circular structure
-										var test_array = [];
-										test_array.push(mydrone);
-										localStorage.setItem("latitude" + index, mydrone['lat']);
-										localStorage.setItem("longitude", mydrone['lng']);
-										localStorage.setItem("infowindow", mydrone['infowindow']);
-										//console.log(mydrone);
-										//string_mydrone = JSON.stringify(mydrone);
-										//console.log(string_mydrone);
-										//console.log(test_array);
+										//var test_array = [];
+										//test_array.push(mydrone);
 										
 										// Send (POST) double-clicked drone icon's data to mappage controller : singledronepage action 
-						  				$.post('<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>', {string_marker: test_array});
+						  				//$.post('<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>', {string_marker: test_array});
 						  				// Call sleep function to post double-clicked drone to mappage controller : singledronepage action
 						  				sleep();
 						  				// sleep function
@@ -111,10 +106,14 @@
   							}
   							markers = [];						
   					 		markers = handler.addMarkers(result);	
+  					 		handler.bounds.extendWith(markers);
+							handler.fitMapToBounds(markers);
 
   					 		_.each(result, function(json, index){
   					 			//--### Newly Updated ### ---
 								var marker = markers[index];	
+								temp_drone_for_search = null;
+								temp_drone_for_search = marker;
 								//json.marker = marker;
   					 			google.maps.event.addListener(marker.getServiceObject(), 'mouseover', function(){
 						          google.maps.event.trigger(marker.getServiceObject(), 'click');
@@ -122,18 +121,10 @@
 								google.maps.event.addListener(marker.getServiceObject(), 'dblclick', function(evt) {
 									var mydrone = result[index];
 									delete mydrone['marker']; //Delete what's causing mydrone to become a circular structure
-									var test_array = [];
-									test_array.push(mydrone);
+									//var test_array = [];
+									//test_array.push(mydrone);
+					  				//$.post('<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>', {string_marker: test_array});
 
-									localStorage.setItem("latitude", mydrone['lat']);
-									localStorage.setItem("longitude", mydrone['lng']);
-									localStorage.setItem("infowindow", mydrone['infowindow']);
-									//console.log(mydrone);
-									//string_mydrone = JSON.stringify(mydrone);
-									//console.log(string_mydrone);
-									//console.log(test_array);
-									
-					  				$.post('<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>', {string_marker: test_array});
 					  				// Call sleep function to post double-clicked drone to mappage controller : singledronepage action
 									sleep();
 									// sleep function
@@ -147,38 +138,40 @@
 								});
   					 		});
 		  				},
+		  				//Log GET request error
 		  				error: function(XMLHttpResquestm, textStatus, errorThrown){
 		  					console.log(textStatus, errorThrown);
 		  				}
 		    		});	
 				};
+				//Function to search single drone by registration number
+				function track_flight_on_click(){
+					//Get search text value
+					var search_drone_name = document.getElementById('reg_number').value;
+					//Open new window tab for searched drone
+					window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>"+"?infowindow="+search_drone_name);
+				}
+
   			</script>
-		</div>
-		<div class="col-lg-1 col-md-2"></div>
-		<div class="col-lg-3 col-md-3 col-sm-12 sidebarOne panel-primary">
-			<h4>Flight Notifications</h4>
-			<div>
-				<h5 id="drone_name" style=" color: #ffffff; "></h5>
-			</div>
 		</div>
 	</div>
 
 	<div class="row">	
 		<div class="col-lg-12 col-md-12 col-sm-12 bottomDiv">
-			<div class="trackYourDrone col-lg-4">
+			<div class="trackYourDrone col-lg-4 col-md-4 col-sm-12 panel">
 				<div class="row">
 					<div class="enterDroneNum">
 						<h4> Quick & Easy Tracking</h4>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-3">
-						<form action="demo_form.asp">
+					<div class="col-lg-3 col-md-3 col-12">
+						<form action="#" onsubmit="return track_flight_on_click();">
 							<div id="enterDroneNumBox" class="enterDroneNum">
-  								<input type="text" name="droneNumber" placeholder="Enter Drone #"><br><br>
+  								<input type="text" name="droneNumber" id="reg_number" placeholder="Enter Drone Reg. #"><br><br>
   							</div>
   							<div id="trackFlightButton">
- 								<input type="submit" value="Track Flight" class="btn btn-success">
+ 								<input type="submit" value="Track Flight" class="btn btn-danger">
  							</div>
 						</form>
 					</div>

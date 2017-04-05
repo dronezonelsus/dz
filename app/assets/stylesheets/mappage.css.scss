@@ -8,6 +8,11 @@ $brand-white: #FFFFFF;
 
 .container{ width: 90%; }
 
+.body_margin{
+  margin-top: 70px;
+  padding:10px; padding-bottom:50px;   /* Set relative to Height of the footer */
+}
+
 .btn-primary {
 	background: lighten($brand-primary, 20%);
   	border-color: lighten($brand-primary, 20%);
@@ -39,14 +44,21 @@ small{ display: inline-block;
   color: #ffffff;
 }
 
-#designOne { background-color: #1C2331; opacity: 0.9;
-  height: 50px; margin-top:20px; margin-bottom:5px; 
+#divAboveMapOne { background-color: rgba(0,0,0,0.85);
+  height: 50px; margin-bottom:5px; 
   margin-left:0px; margin-right:0px; 
   color: #ffffff; 
   font-weight: bold;
 }
 
-.bottomDiv { background-color: #2E2E2E; opacity: 0.8;
+#divAboveMapOne p{
+  font-size: 25px;
+  margin: 5px;
+  margin-left: 1px;
+}
+
+
+.bottomDiv { background-color: rgba(0,0,0,0.85);;
   margin-top: 3px;
   height: 250px;
 }

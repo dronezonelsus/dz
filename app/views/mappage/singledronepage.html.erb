@@ -4,10 +4,9 @@
 <%= javascript_include_tag  'js.cookie.js' %>
 
 
-<p id="notice"><%= notice %></p>
-<div class="container body_padding" style="padding:10px; padding-bottom:50px;   /* Set relative to Height of the footer */" >
+<div class="container body_margin" >
 	<div class="row">
-		<div class="col-lg-8 col-md-7 col-sm-12" id="divAboveMap">
+		<div class="col-lg-12 col-md-12 col-sm-12 panel" id="divAboveMap">
 			<p>Live Tracking</p>
 		</div>
 	</div>
@@ -27,10 +26,10 @@
 				var drone_lat;
 				var drone_lng;
 
-				//Load single marker (drone) on the map
+				//############### Load single marker (drone) on the map #################
 				$(document).ready(function(){
-					//if(localStorage.getItem("lat") === null){
-					//console.log(localStorage.getItem('id'));
+					
+					//############### Function to get drone name/registration number value from cureent URL ###############
 					function getQueryVariable(variable)
 					{
 					       var query = window.location.search.substring(1);
@@ -43,17 +42,13 @@
 					       }
 					       return(false);
 					}
-					//lat = Number(getQueryVariable("lat"));
-					//localStorage.setItem('lat', lat);	
-					//lng = Number(getQueryVariable("lng"));
-					//localStorage.setItem('lng', lng);				
+					//############### Call getQueryVariable function to get drone name/registration number value ###############		
 					info = getQueryVariable("infowindow");
 					if(info.indexOf("%20") >= 0){
 						info = info.replace("%20", " ");
 					}
-					console.log(info);
-			
 
+					//############### Ajax to GET double-clicked drone's data to render on map AND render map layout ###############
 					$.ajax({
 						type: "GET",
 						url: "<%= Rails.application.routes.url_helpers.mappage_index_path %>",
@@ -71,7 +66,7 @@
 									//Rebuild map marker with data recieved from mappage controller : index action
 									myLatlng = new google.maps.LatLng(result[i]['lat'], result[i]['lng']);
 									mapOptions = {
-									  zoom: 18,
+									  zoom: 16,
 									  center: myLatlng
 									}
 									map = new google.maps.Map(document.getElementById("single_page_map"), mapOptions);
@@ -82,9 +77,9 @@
 									    icon: iconBase
 									});
 
-										// First, create an object containing LatLng and population for each city.
-								      var citymap = {
-								        chicago: {
+									//########## Create object containing no-fly zones coordinates and population(population is temporary) ##########
+								    var citymap = {
+									    chicago: {
 								          center: {lat: 41.878, lng: -87.629},
 								          population: 2714856
 								        },
@@ -100,36 +95,31 @@
 								          center: {lat: 49.25, lng: -123.1},
 								          population: 603502
 								        }
-								      };
+							      	};
 
-
-								      // Construct the circle for each value in citymap.
-								        // Note: We scale the area of the circle based on the population.
-								        for (var city in citymap) {
-								          // Add the circle for this city to the map.
-								          var cityCircle = new google.maps.Circle({
-								            strokeColor: '#FF0000',
-								            strokeOpacity: 0.8,
-								            strokeWeight: 2,
-								            fillColor: '#FF0000',
-								            fillOpacity: 0.35,
-								            map: map,
-								            center: citymap[city].center,
-								            radius: Math.sqrt(citymap[city].population) * 100
-								          });
-								        }
-
-
-									// To add the marker to the map, call setMap();
-
+							      	//############### Construct the circle for each value in citymap ###############
+							        // Note: We scale the area of the circle based on the population.
+							        for (var city in citymap) {
+							          // Add the circle for this city to the map.
+							          var cityCircle = new google.maps.Circle({
+							            strokeColor: '#FF0000',
+							            strokeOpacity: 0.8,
+							            strokeWeight: 2,
+							            fillColor: '#FF0000',
+							            fillOpacity: 0.35,
+							            map: map,
+							            center: citymap[city].center,
+							            radius: Math.sqrt(citymap[city].population) * 100
+							          });
+							        }
+							        //############### Polygon ###############
 									var triangleCoords = [
 							          {lat: 25.774, lng: -80.190},
 							          {lat: 18.466, lng: -66.118},
 							          {lat: 32.778, lng: -96.797},
 							          {lat: 25.774, lng: -80.190}
 							        ];
-
-							        // Construct the polygon.
+							        //############### Construct the polygon ###############
 							        var bermudaTriangle = new google.maps.Polygon({
 							        	paths: triangleCoords,
 							          	strokeColor: '#FF0000',
@@ -139,6 +129,24 @@
 							          	fillOpacity: 0.35
 							        });
 							        bermudaTriangle.setMap(map);
+
+							        //############### Construct polyline ###############
+							        var flightPlanCoordinates = [
+							        	{lat: 37.772, lng: -122.214},
+							          	{lat: 21.291, lng: -157.821},
+							          	{lat: -18.142, lng: 178.431},
+							          	{lat: -27.467, lng: 153.027}
+							        ];
+							        var flightPath = new google.maps.Polyline({
+							          	path: flightPlanCoordinates,
+							          	geodesic: true,
+							          	strokeColor: '#FF0000',
+							          	strokeOpacity: 1.0,
+							          	strokeWeight: 2
+							        });
+							        //##### Add polyline #####
+							        flightPath.setMap(map);
+
 									// To add the marker to the map, call setMap();
 									marker.setMap(map);
 									// Display drone name
@@ -161,27 +169,18 @@
 	  					}
 	    			});		
 				});
-
+		
+				//############################## Not used yet ################################
 				function createSidebarLi(json){
 		    		return ("<li><a>" + json.lat + " " + json.lng + "</a></li>");
 		    	};
-
-	    		// function bindLiToMarker($li, marker){
-	    		// 	$li.on('click', function(){
-	    		// 		//handler.getMap().setZoom(14);
-	    		// 		//marker.panTo();
-				   //      google.maps.event.trigger(marker.getServiceObject(), 'click');
-	    		// 	})
-	    		// };
-
 	    		function createSidebar(json_array){
 			      _.each(json_array, function(json){
 			        var $li = $( createSidebarLi(json) );	
-			        //$("#drone_name").html("");		        
-			        //$li.appendTo('#drone_name');
 			        bindLiToMarker($li, json.marker);
 			      });
 			    };
+			    //##############################################################################
 
 				//Make calls at an interval to reload the map
 				function auto_load(){	
@@ -196,6 +195,7 @@
 						success: function(result){  
 							//console.log(result);
 							//console.log(marker.getTitle());
+							var bounds = new google.maps.LatLngBounds();
 							for(var i = 0; i < result.length; i++){
 								//Precondition: Clicked drone from initial view (mappage#index) is the same as one of the drones on initial view 
 								if( result[i]['infowindow'] == marker.getTitle() ){
@@ -204,7 +204,7 @@
 									//Rebuild map marker with data recieved from mappage controller : index action
 									myLatlng = new google.maps.LatLng(result[i]['lat'], result[i]['lng']);
 									mapOptions = {
-									  zoom: 18,
+									  zoom: 16,
 									  center: myLatlng
 									}
 									marker = new google.maps.Marker({
@@ -212,19 +212,18 @@
 									    title: result[i]['infowindow'],
 									    icon: iconBase
 									});
-
-									// To add the marker to the map, call setMap();
+									//#### To add the marker to the map, call setMap() #####
 									marker.setMap(map);
-									//console.log(result[i]);
-					 				//createSidebarLi(result);
-
-					 				// Display drone name
+									bounds.extend(marker.position);
+									//now fit the map to the newly inclusive bounds
+									//map.fitBounds(bounds);
+					 				//############### Display drone name ###############
 									drone_name = document.getElementById("droneName");
 									drone_name.innerHTML = marker.getTitle();
-									// Display drone latitude
+									//############### Display drone latitude ###############
 									drone_lat = document.getElementById("droneLat");
 									drone_lat.innerHTML = marker.getPosition().lat();
-									// Display drone longitude
+									//############### Display drone longitude ###############
 									drone_lng = document.getElementById("droneLng");
 									drone_lng.innerHTML = marker.getPosition().lng();
 								}
