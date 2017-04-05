@@ -74,7 +74,30 @@ small{ display: inline-block;
   height:200px;  
   margin-top: 20px;
 }
-/*Facebk*/
+
+//Style custom marquee-effect div 
+@keyframes marquee {
+    0%   { text-indent: 430px }
+    100% { text-indent: -485px }
+}
+@-webkit-keyframes marquee {
+    0%   { text-indent: 430px }
+    100% { text-indent: -485px }
+}
+.marquee {
+  
+    color: #ffffff;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: marquee 17s linear infinite;
+    -webkit-animation: marquee 17s linear infinite;
+}
+.marquee:hover {
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+}
+
+/*Facebook*/
 .fb-like { margin-top: 10px; 
   float: right;
 }
