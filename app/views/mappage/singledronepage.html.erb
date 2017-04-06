@@ -22,6 +22,7 @@
 				var lat;
 				var lng;
 				var info;
+				var regNumber;
 				var drone_name;
 				var drone_lat;
 				var drone_lng;
@@ -43,12 +44,18 @@
 					       }
 					       return(false);
 					}
-					//############### Call getQueryVariable function to get drone name/registration number value ###############		
+					//############### Call getQueryVariable function to get drone name value ###############		
 					info = getQueryVariable("infowindow");
 					if(info.indexOf("%20") >= 0){
 						info = info.replace("%20", " ");
 					}
+					//############### Call getQueryVariable function to get registration number value ###############		
+					regNumber = getQueryVariable("regNumber");
+					if(regNumber.indexOf("%20") >= 0){
+						regNumber = regNumber.replace("%20", " ");
+					}
 					tracking_drone_name.innerHTML = info;
+					//tracking_drone_reg_number.innerHTML = regNumber;
 
 
 					//############### Ajax to GET double-clicked drone's data to render on map AND render map layout ###############
@@ -64,7 +71,7 @@
 							//console.log(marker.getTitle());
 							for(var i = 0; i < result.length; i++){
 								//Precondition: Clicked drone from initial view (mappage#index) is the same as one of the drones on initial view 
-								if( info == result[i]['infowindow']){
+								if( info == result[i]['infowindow'] && regNumber == result[i]['marker_title']){
 									console.log(result[i]['infowindow']);
 
 									//Rebuild map marker with data recieved from mappage controller : index action
@@ -156,6 +163,7 @@
 									setLatitude("lat");
 									setLongitude("lng");
 									setDroneName("drone_name");
+									setRegNumber("reg_number");
 									//Call ajax auto_load function every 5 seconds to reload marker on map 
 									setInterval(auto_load, 5000);
 								}
@@ -195,7 +203,7 @@
 							var bounds = new google.maps.LatLngBounds();
 							for(var i = 0; i < result.length; i++){
 								//Precondition: Clicked drone from initial view (mappage#index) is the same as one of the drones on initial view 
-								if( result[i]['infowindow'] == marker.getTitle() ){
+								if( result[i]['infowindow'] == marker.getTitle() && regNumber == result[i]['marker_title']){
 									//Remove marker icon from map 
 									marker.setMap(null);
 									//Rebuild map marker with data recieved from mappage controller : index action
@@ -220,6 +228,7 @@
 									setLatitude("lat");
 									setLongitude("lng");
 									setDroneName("drone_name");
+									setRegNumber("reg_number");
 								}
 							}
 	  					},
@@ -241,6 +250,10 @@
 					var drone_name = document.getElementById(variable);
 					drone_name.innerHTML = marker.getTitle();
 				}
+				function setRegNumber(variable){
+					var reg_number = document.getElementById(variable);
+					reg_number.innerHTML = regNumber;
+				}
 			</script>
 		</div>
 	</div>
@@ -257,11 +270,13 @@
 									<th>Latitude</th>
 									<th>Longitude</th>
 									<th>Drone Name</th>
+									<th>Reg. Number</th>
 								</tr>
 								<tr>
 									<td><span id="lat"></span></td>
 									<td><span id="lng"></span></td>
 									<td><span id="drone_name"></span></td>
+									<td><span id="reg_number"></span></td>
 								</tr>
 							</table>
 							<div id ="warning_div" class="panel">
