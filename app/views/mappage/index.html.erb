@@ -13,7 +13,7 @@
 
 <p id="notice"><%= notice %></p>
 
-<div class="container body_margin" style="padding:10px; padding-bottom:50px;   /* Set relative to Height of the footer */ ">	
+<div class="body_margin" style="padding:10px; padding-bottom:50px;   /* Set relative to Height of the footer */ ">	
 	<!-- <marquee behavior="scroll" direction="left" scrollamount="5"><h3 id="marqueeOne" >Live Tracking in Progress...</h3></marquee> -->
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 panel" id="divAboveMapOne">
@@ -28,7 +28,7 @@
   				// Build Google Maps using Gmaps
   				var handler = Gmaps.build('Google', { markers: {}});	
   				var temp_drone_for_search;
-  				var marker;
+  			
   				var marker_reg_numbers = [];
   				var marker_drone_name = [];
 
@@ -56,15 +56,14 @@
 								handler.bounds.extendWith(markers);
 								handler.fitMapToBounds(markers);	
 
+								
 								// Make each drone icon listen to a double-click event and a new browser tab and the event 
 								_.each(result, function(json, index){
-	  					 			marker = markers[index];	
+	  					 			var marker = markers[index];	
 	  					 			temp_drone_for_search = marker;
 	  					 			marker_reg_numbers[index] = marker.getServiceObject().title;
 									marker_drone_name[index] = result[index]['infowindow'];
 	  					 			
-	  					 			
-	  					 			//json.marker = marker;
 	  					 			// Add mouseover event listener to drones to display infowindow data 
 	  					 			google.maps.event.addListener(marker.getServiceObject(), 'mouseover', function(){
 							          google.maps.event.trigger(marker.getServiceObject(), 'click');
@@ -115,7 +114,7 @@
 
   					 		_.each(result, function(json, index){
   					 			//--### Newly Updated ### ---
-								marker = markers[index];	
+								var marker = markers[index];	
 								temp_drone_for_search = null;
 								temp_drone_for_search = marker;
 								marker_reg_numbers[index] = marker.getServiceObject().title;
