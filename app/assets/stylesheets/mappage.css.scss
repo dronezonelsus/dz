@@ -9,7 +9,7 @@ $brand-white: #FFFFFF;
 .container{ width: 90%; }
 
 .body_margin{
-  margin-top: 70px;
+  margin-top: 60px;
   padding:10px; padding-bottom:50px;   /* Set relative to Height of the footer */
 }
 
@@ -85,12 +85,12 @@ small{ display: inline-block;
     100% { text-indent: -485px }
 }
 .marquee {
-  
+
     color: #ffffff;
     overflow: hidden;
     white-space: nowrap;
-    animation: marquee 17s linear infinite;
-    -webkit-animation: marquee 17s linear infinite;
+    animation: marquee 35s linear infinite;
+    -webkit-animation: marquee 35s linear infinite;
 }
 .marquee:hover {
     -webkit-animation-play-state: paused;
