@@ -1,0 +1,2 @@
+module MappageHelper
+end

@@ -1,0 +1,157 @@
+/* LIVE TRACKING DIV */
+#divAboveMap{
+	background-color: #1C2331; opacity: 0.8;
+	height: 45px;
+	margin-top: 10px;
+	color: rgba(255, 91, 0, 1);
+}
+#divAboveMap p{
+	font-size: 25px;
+	margin: 5px;
+	margin-left: 1px;
+}
+
+/* Map layout */
+#single_page_map{
+	margin-top: 10px;
+}
+
+/* Flight Data side bar*/
+#flightData{
+	color: rgba(255, 91, 0, 1);
+	font-size: 25px;
+	margin: 5px;
+	margin-left: 1px;
+}
+#flightDataTitleDiv{
+	background-color: #1C2331; opacity: 0.8;
+	margin-top: 10px;
+	height: 45px;
+}
+
+/* Origin Data Style*/
+#flightDataOriginDiv{
+	background-color: rgba(158, 163, 166, 0.3);
+	border-top: thick solid rgba(158, 163, 166, 1);
+	margin-top: 5px;
+	height: 30px;
+}
+#flightDataOriginDiv h5{
+	font-family: Arial black, Helvetica, sans-serif;
+	color: rgba(255, 91, 0, 0.8);
+	font-size: 15px;
+	margin: 5px;
+	margin-left: 1px;
+}
+#originTable{
+	margin-top: 5px;
+}
+#originTable th{
+	color: rgba(255, 91, 0, 1);
+	font-size: 12px;
+}
+#originTable tr{
+	color: rgba(255, 91, 0, 1);
+	font-size: 12px;
+}
+#originTable table{
+	width: 100%;
+}
+
+/* Destination Data Style*/
+#flightDataDestinationDiv{
+	background-color: rgba(158, 163, 166, 0.3);
+	border-top: thick solid rgba(158, 163, 166, 1);
+	margin-top: 20px;
+	height: 30px;
+}
+#flightDataDestinationDiv h5{
+	font-family: Arial black, Helvetica, sans-serif;
+	color: rgba(255, 91, 0, 0.8);
+	font-size: 15px;
+	margin: 5px;
+	margin-left: 1px;
+}
+#destinationTable{
+	margin-top: 5px;
+}
+#destinationTable tr{
+	color: rgba(255, 91, 0, 1);
+	font-size: 12px;
+}
+#destinationTable tr{
+	color: rgba(255, 91, 0, 1);
+	font-size: 12px;
+}
+#destinationTable table{
+	width: 100%;
+}
+
+/* Drone Information Style */
+#flightDataDroneInfoDiv{
+	background-color: rgba(158, 163, 166, 0.3);
+	border-top: thick solid rgba(158, 163, 166, 1);
+	margin-top: 20px;
+	height: 30px;
+}
+#flightDataDroneInfoDiv h5{
+	font-family: Arial black, Helvetica, sans-serif;
+	color: rgba(255, 91, 0, 0.8);
+	font-size: 15px;
+	margin: 5px;
+	margin-left: 1px;
+}
+#droneInfoTable{
+	margin-top: 5px;
+	color: rgba(255, 91, 0, 1);
+	font-size: 12px;
+}
+
+/* Destination Data Style*/
+#flightInformationDiv{
+	background-color: rgba(158, 163, 166, 0.3);
+	border-top: thick solid rgba(158, 163, 166, 1);
+	margin-top: 20px;
+	height: 30px;
+}
+#flightInformationDiv h5{
+	font-family: Arial black, Helvetica, sans-serif;
+	color: rgba(255, 91, 0, 0.8);
+	font-size: 15px;
+	margin: 5px;
+	margin-left: 1px;
+}
+#flightInformationTable{
+	margin-top: 5px;
+}
+#flightInformationTable tr{
+	color: rgba(255, 91, 0, 1);
+	font-size: 12px;
+}
+#flightInformationTable tr{
+	color: rgba(255, 91, 0, 1);
+	font-size: 12px;
+}
+#flightInformationTable table{
+	width: 100%;
+}
+
+/* Warnings Data Style */
+#flightWarningsDiv{
+	background-color: rgba(158, 163, 166, 0.3);
+	border-top: thick solid rgba(158, 163, 166, 1);
+	margin-top: 20px;
+	height: 30px;
+}
+#flightWarningsDiv h5{
+	font-family: Arial black, Helvetica, sans-serif;
+	color: rgba(255, 91, 0, 0.8);
+	font-size: 15px;
+	margin: 5px;
+	margin-left: 1px;
+}
+#flightWarningsTable{
+	margin-top: 4px;
+	color: rgba(255, 91, 0, 1);
+	font-size: 12px;
+}

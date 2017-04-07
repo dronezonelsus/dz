@@ -1,0 +1,107 @@
+// Place all the styles related to the mappage controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+$brand-primary: #532F8C;
+$brand-language: #B01302;
+$brand-white: #FFFFFF;
+// Container
+.container{ width: 90%; }
+
+.body_margin{
+  margin-top: 55px;
+  padding:10px; padding-bottom:50px;   /* Set relative to Height of the footer */
+}
+
+.btn-primary {
+	background: lighten($brand-primary, 20%);
+  	border-color: lighten($brand-primary, 20%);
+  	&:hover {
+   		background: lighten($brand-primary, 15%);
+  	}
+}
+
+#footer{ position:fixed;
+   bottom:0;
+   width:100%;
+   height:60px;   /* Height of the footer */
+   background:#3E4551;
+}
+
+div.sidebarOne h4 { color: #eeeeee; 
+	text-align: left;
+	border-top: 1px solid #ffffff;
+}
+
+.footerText {
+  display: inline-block;
+}
+
+small{ display: inline-block;
+	font-weight: bold; 
+	margin-left: 20px; 
+  margin-top: 15px; 
+  color: #ffffff;
+}
+
+#divAboveMapOne { background-color: rgba(0,0,0,0.85);
+  height: 50px; margin-bottom:5px; 
+  margin-left:0px; margin-right:0px; 
+  color: #ffffff; 
+  font-weight: bold;
+}
+
+#divAboveMapOne p{
+  font-size: 25px;
+  margin: 5px;
+  margin-left: 1px;
+}
+
+
+.bottomDiv { background-color: rgba(0,0,0,0.85);;
+  margin-top: 3px;
+  height: 250px;
+}
+
+.enterDroneNum h4{ color: #eceff1; 
+  text-align: left;
+  border-bottom: 2px solid #eceff1;
+  margin: 15px;
+  padding-bottom: 3px;
+}
+
+.trackYourDrone { background: rgb(69, 90, 100); 
+  height:200px;  
+  margin-top: 20px;
+}
+
+//Style custom marquee-effect div 
+@keyframes marquee {
+    0%   { text-indent: 430px }
+    100% { text-indent: -485px }
+}
+@-webkit-keyframes marquee {
+    0%   { text-indent: 430px }
+    100% { text-indent: -485px }
+}
+.marquee {
+    color: #ffffff;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: marquee 35s linear infinite;
+    -webkit-animation: marquee 35s linear infinite;
+}
+.marquee:hover {
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+}
+#num_of_drones_div{
+  background: rgb(69, 90, 100); 
+  height:auto;
+  min-height: 180px;
+}
+
+/*Facebook*/
+.fb-like { margin-top: 10px; 
+  float: right;
+}

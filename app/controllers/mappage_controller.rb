@@ -1,5 +1,6 @@
 class MappageController < ApplicationController
- 
+  
+  ######## Index action ########
   def index
     @drones = Drone.all.reload
     respond_to do |format|
@@ -12,6 +13,7 @@ class MappageController < ApplicationController
           marker.lat drone.reload.latitude
           marker.lng drone.reload.longitude
           marker.infowindow drone.reload.drone_name
+          marker.title drone.reload.drone_number.to_s
           marker.picture({
             :url => ActionController::Base.helpers.asset_path('DroneMap.png'),
             :width => 60,
@@ -24,6 +26,7 @@ class MappageController < ApplicationController
     end
   end
  
+ ######## Not using this action right now ########
   def singledronepage
     #flash.keep
     #@myhash = Hash.new
