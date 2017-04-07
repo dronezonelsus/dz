@@ -1,5 +1,6 @@
 class MappageController < ApplicationController
- 
+  
+  ######## Index action ########
   def index
     @drones = Drone.all.reload
     respond_to do |format|
@@ -25,6 +26,7 @@ class MappageController < ApplicationController
     end
   end
  
+ ######## Not using this action right now ########
   def singledronepage
     #flash.keep
     #@myhash = Hash.new

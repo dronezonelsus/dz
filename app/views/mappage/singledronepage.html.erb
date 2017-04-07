@@ -123,27 +123,10 @@
 							            radius: Math.sqrt(citymap[city].population) * 100
 							          });
 							        }
-							        //############### Polygon ###############
-									var triangleCoords = [
-							          {lat: 25.774, lng: -80.190},
-							          {lat: 18.466, lng: -66.118},
-							          {lat: 32.778, lng: -96.797},
-							          {lat: 25.774, lng: -80.190}
-							        ];
-							        //############### Construct the polygon ###############
-							        var bermudaTriangle = new google.maps.Polygon({
-							        	paths: triangleCoords,
-							          	strokeColor: '#FF0000',
-							          	strokeOpacity: 0.8,
-							          	strokeWeight: 2,
-							          	fillColor: '#FF0000',
-							          	fillOpacity: 0.35
-							        });
-							        bermudaTriangle.setMap(map);
 
 							        //############### Construct polyline ###############
 							        var flightPlanCoordinates = [
-							        	{lat: 37.772, lng: -122.214},
+							        	{lat: 37.777, lng: -96.77699999999999},
 							          	{lat: 21.291, lng: -157.821},
 							          	{lat: -18.142, lng: 178.431},
 							          	{lat: -27.467, lng: 153.027}
@@ -174,18 +157,6 @@
 	  					}
 	    			});		
 				});
-		
-				//############################## Not used yet ################################
-				function createSidebarLi(json){
-		    		return ("<li><a>" + json.lat + " " + json.lng + "</a></li>");
-		    	};
-	    		function createSidebar(json_array){
-			      _.each(json_array, function(json){
-			        var $li = $( createSidebarLi(json) );	
-			        bindLiToMarker($li, json.marker);
-			      });
-			    };
-			    //##############################################################################
 
 				//Make calls at an interval to reload the map
 				function auto_load(){	

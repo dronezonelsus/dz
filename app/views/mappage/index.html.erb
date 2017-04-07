@@ -52,10 +52,12 @@
   						dataType: "json",
   						data: <%= raw @hash.to_json %>,
   						success: function(result){  
+  							var mapStyle ;
   							handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){					     		markers = handler.addMarkers(result); 			
 								handler.bounds.extendWith(markers);
 								handler.fitMapToBounds(markers);	
-
+								var num_of_drones = markers.length;
+  					 			document.getElementById('num_of_drones').innerHTML = num_of_drones;
 								
 								// Make each drone icon listen to a double-click event and a new browser tab and the event 
 								_.each(result, function(json, index){
@@ -71,9 +73,9 @@
 
 									google.maps.event.addListener(marker.getServiceObject(), 'dblclick', function(evt) {
 										var mydrone = result[index];
-										delete mydrone['marker']; // Delete what's causing mydrone to become a circular structure
-										
-										console.log(marker.getServiceObject().title);
+										delete mydrone['marker']; // Delete what's causing mydrone to become a circular structure								
+										//console.log(marker.getServiceObject().title);
+						  				
 						  				// Call sleep function to post double-clicked drone to mappage controller : singledronepage action
 						  				sleep();
 						  				// sleep function
@@ -86,7 +88,7 @@
 										};
 									});
   					 			});
-  					 			console.log(marker_reg_numbers.length);
+  					 			//console.log(marker_reg_numbers.length);
 							});
 		  				},
 		  				error: function(XMLHttpResquestm, textStatus, errorThrown){
@@ -111,6 +113,8 @@
   							}
   							markers = [];						
   					 		markers = handler.addMarkers(result);	
+  					 		var num_of_drones = markers.length;
+  					 		document.getElementById('num_of_drones').innerHTML = num_of_drones;
 
   					 		_.each(result, function(json, index){
   					 			//--### Newly Updated ### ---
@@ -127,8 +131,8 @@
 								google.maps.event.addListener(marker.getServiceObject(), 'dblclick', function(evt) {
 									var mydrone = result[index];
 									delete mydrone['marker']; //Delete what's causing mydrone to become a circular structure
-									
-					  				console.log(marker.getServiceObject().title);
+					  				//console.log(marker.getServiceObject().title);
+					  				
 					  				// Call sleep function to post double-clicked drone to mappage controller : singledronepage action
 									sleep();
 									// sleep function
@@ -191,6 +195,10 @@
 			<div class="col-lg-7 col-lg-offset-1 col-md-7 col-md-offset-1 col-sm-12 marquee">
 				<h5 style="font-size: 18px;">Live tracking in progress...Double click drone icon to view telemetry data or use the Quick & Easy Tracking search field.</h5>
 			</div>
+			<div class="col-lg-7 col-lg-offset-1 col-md-7 col-md-offset-1 col-sm-12" id="num_of_drones_div">
+				<h4 style="color: rgba(255,255,255,1);"><span id="num_of_drones"></span> DRONES ON THE MAP</h4>
+			</div>
+			
 		</div>
 	</div>
 </div>
