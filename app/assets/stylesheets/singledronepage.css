@@ -42,4 +42,11 @@
 	font-size: 11px;
 }
 
+#table_activity_log{
+	width: 90%;
+}
+#activity_log{
+	padding: 10px;
+	color: rgba(255,255,255,0.9);
+}
 

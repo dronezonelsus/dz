@@ -14,13 +14,13 @@ class MappageController < ApplicationController
           marker.lng drone.reload.longitude
           marker.infowindow drone.reload.drone_name
           marker.title drone.reload.drone_number.to_s
+          marker.json({:departure => drone.reload.departure, :arrival => drone.reload.arrival})
           marker.picture({
             :url => ActionController::Base.helpers.asset_path('DroneMap.png'),
             :width => 60,
             :height => 60
           })
         end
-        puts "This is hash: " + @hash.to_s
         render json: @hash
       }
     end

@@ -13,6 +13,8 @@
       <th>Drone Name</th>
       <th>Latitude</th>
       <th>Longitude</th>
+      <th>Departure</th>
+      <th>Arrival</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -24,6 +26,8 @@
         <td><%= drone.drone_name %></td>
         <td id="latitude"><%= drone.latitude %></td>
         <td id="longitude"><%= drone.longitude %></td>
+        <td><%= drone.departure %></td>
+        <td><%= drone.arrival %></td>
         <td><%= link_to 'Show', drone %></td>
         <td><%= link_to 'Edit', edit_drone_path(drone) %></td>
         <td><%= link_to 'Destroy', drone, method: :delete, data: { confirm: 'Are you sure?' } %></td>
