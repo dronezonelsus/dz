@@ -87,6 +87,6 @@ class DronesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def drone_params
-      params.require(:drone).permit(:drone_number, :drone_name, :latitude, :longitude)
+      params.require(:drone).permit(:drone_number, :drone_name, :latitude, :longitude, :user_id)
     end
 end
