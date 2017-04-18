@@ -28,7 +28,16 @@
     js = d.createElement(s); js.id = id;
     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
     fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));</script>
+  }(document, 'script', 'facebook-jssdk'));
+
+  function autoResizeDiv()
+    {
+        document.getElementById('my_custom_body').style.height = window.innerHeight +'px';
+    }
+    window.onresize = autoResizeDiv;
+    autoResizeDiv();
+
+  </script>
 
 <nav class="navbar navbar-default navbar-fixed-top navbar-inverse navText" style="height:65px;">
   <div class="container">
@@ -65,7 +74,7 @@
     </div>
   </div>
 </nav>
-<div>
+<div id="my_custom_body">
   <%= yield %>
 </div>
 <footer>

@@ -4,7 +4,7 @@
 <%= javascript_include_tag  'js.cookie.js' %>
 
 
-<div class=" body_margin" >
+<div class="body_margin">
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 panel" id="divAboveMap">
 			<p>Tracking <span id="tracking_drone_name"></span></p>
@@ -60,7 +60,6 @@
 					tracking_drone_name.innerHTML = info;
 					//tracking_drone_reg_number.innerHTML = regNumber;
 
-
 					//############### Ajax to GET double-clicked drone's data to render on map AND render map layout ###############
 					$.ajax({
 						type: "GET",
@@ -98,13 +97,13 @@
 									
 									//########## Create object containing no-fly zones coordinates and population(population is temporary) ##########
 								    var citymap = {
-									    chicago: {
-								          center: {lat: 41.878, lng: -87.629},
-								          population: 2714856
+									    shreveportRegional: {
+								          center: {lat: 32.4546, lng: -93.8285},
+								          population: 100,
 								        },
-								        newyork: {
-								          center: {lat: 40.714, lng: -74.005},
-								          population: 8405837
+								        barksdaleAFB: {
+								          center: {lat: 32.5019, lng: -93.6571},
+								          population: 110
 								        },
 								        losangeles: {
 								          center: {lat: 34.052, lng: -118.243},
@@ -144,16 +143,15 @@
 									setRegNumber("reg_number");
 									setDate();
 									processDistanceAndDuration();
-									document.getElementById("drone").innerHTML = regNumber;
-									//Call ajax auto_load function every 5 seconds to reload marker on map 
-									setInterval(auto_load, 5000);
 								}
 							}
 	  					},
 	  					error: function(XMLHttpResquestm, textStatus, errorThrown){
 	  						console.log(textStatus, errorThrown);
 	  					}
-	    			});		
+	    			});	
+					//Call ajax auto_load function every 5 seconds to reload marker on map 
+					setInterval(auto_load, 5000);
 				});
 
 				//Make calls at an interval to reload the map
@@ -199,7 +197,7 @@
 									setDroneName("drone_name");
 									setRegNumber("reg_number");
 									setDate();
-									document.getElementById("drone").innerHTML = regNumber;
+									processDistanceAndDuration();
 								}
 							}
 	  					},
@@ -307,18 +305,16 @@
 				        if (status == google.maps.DistanceMatrixStatus.OK && response.rows[0].elements[0].status != "ZERO_RESULTS") {
 				            var distance = response.rows[0].elements[0].distance.text;
 				            var duration = response.rows[0].elements[0].duration.text;
+				            //var speed = (Number(dist_val)/Number(dur_val));
 				            var dvDistance = document.getElementById("distance");
 				            dvDistance.innerHTML = distance;
 				            var dvDuration = document.getElementById("duration");
-				            dvDuration.innerHTML = duration;
-				 
+				            dvDuration.innerHTML = duration; 
 				        } else {
 				            alert("Unable to find the distance via road.");
 				        }
 				    });
-	    		}
-				
-				
+	    		}			
 			</script>
 		</div>
 	</div>
@@ -364,10 +360,10 @@
 									</tr>
 								</tr>
 							</table>
+							<h6>Duration, Distance, and Speed currently based on Google's DRIVING travel mode.</h6>
 							<div id ="warning_div" class="panel">
-								<h5>WARNING BELOW</h5>
+								<h6>WARNING</h6>
 							</div>
-							<h6>Duration, Distance and Speed currently in Google's Driving Travel Mode </h6>
 						</div>
 					</div>
 				</div>
@@ -387,7 +383,6 @@
 										<th>Time</th>
 										<th>Departure</th>
 										<th>Arrival</th>
-										<th>Drone</th>
 									</tr>
 								</thead>
 								<tr>
@@ -403,7 +398,6 @@
 									</td>
 									<td><span id="departure"></span></td>
 									<td><span id="arrival"></span></td>
-									<td><span id="drone"></span></td>
 								</tr>
 							</table>
 						</div>
