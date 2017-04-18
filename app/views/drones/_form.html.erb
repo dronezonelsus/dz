@@ -10,7 +10,6 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
     <%= f.label :Drone_number %><br>
     <%= f.number_field :drone_number %>
@@ -36,6 +35,7 @@
     <%= f.text_field :longitude %>
   </div>
   </br>
+  <%= f.hidden_field :user_id, :value => session[:user_id] %>
   <div class="actions">
     <%= f.submit %>
   </div>

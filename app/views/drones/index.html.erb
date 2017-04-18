@@ -21,17 +21,20 @@
 
   <tbody>
     <% @drones.each do |drone| %>
-      <tr>
-        <td><%= drone.drone_number %></td>
-        <td><%= drone.drone_name %></td>
-        <td id="latitude"><%= drone.latitude %></td>
-        <td id="longitude"><%= drone.longitude %></td>
-        <td><%= drone.departure %></td>
-        <td><%= drone.arrival %></td>
-        <td><%= link_to 'Show', drone %></td>
-        <td><%= link_to 'Edit', edit_drone_path(drone) %></td>
-        <td><%= link_to 'Destroy', drone, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+
+      <% if drone.user_id == session[:user_id] %>
+        <tr>
+          <td><%= drone.drone_number %></td>
+          <td><%= drone.drone_name %></td>
+          <td id="latitude"><%= drone.latitude %></td>
+          <td id="longitude"><%= drone.longitude %></td>
+          <td><%= drone.departure %></td>
+          <td><%= drone.arrival %></td>
+          <td><%= link_to 'Show', drone %></td>
+          <td><%= link_to 'Edit', edit_drone_path(drone) %></td>
+          <td><%= link_to 'Destroy', drone, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <%end %>
     <% end %>
   </tbody>
 </table>
