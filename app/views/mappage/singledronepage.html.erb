@@ -29,6 +29,8 @@
 				var tracking_drone_name = document.getElementById('tracking_drone_name');
 				var departure;
 				var arrival;
+				var simulatedLatIncrease = 0.001;
+				var simulatedLngIncrease = 0.0001;
 				
 
 				//############### Load single marker (drone) on the map #################
@@ -74,7 +76,7 @@
 							for(var i = 0; i < result.length; i++){
 								//Precondition: Clicked drone from initial view (mappage#index) is the same as one of the drones on initial view 
 								if( info == result[i]['infowindow'] && regNumber == result[i]['marker_title']){
-									console.log(result[i]['infowindow']);
+									console.log(result[i]['lat']);
 									polyLat = result[i]['lat'];
 									polyLng = result[i]['lng'];
 									//Rebuild map marker with data recieved from mappage controller : index action
@@ -143,6 +145,7 @@
 									setRegNumber("reg_number");
 									setDate();
 									processDistanceAndDuration();
+									writeToFile();
 								}
 							}
 	  					},
@@ -154,6 +157,7 @@
 					setInterval(auto_load, 5000);
 				});
 
+				var testVar = 0;
 				//Make calls at an interval to reload the map
 				function auto_load(){	
 					//Ajax function to get marker data from mappage controller : index action 
@@ -173,8 +177,118 @@
 								if( result[i]['infowindow'] == marker.getTitle() && regNumber == result[i]['marker_title']){
 									//Remove marker icon from map 
 									marker.setMap(null);
+
+									//################## Case 1 : A markerLat < B markerLat & Alng > Blng ##################//
 									//Rebuild map marker with data recieved from mappage controller : index action
-									myLatlng = new google.maps.LatLng(result[i]['lat'], result[i]['lng']);
+									if(geocoded_arrival_lat > geocoded_depart_lat && geocoded_arrival_lng < geocoded_depart_lng){
+										if(testVar == 0)
+											//Increase DroneLat
+											polyLat = result[i]['lat']+simulatedLatIncrease;
+										if(polyLat < geocoded_arrival_lat){
+											
+											simulatedLatIncrease = simulatedLatIncrease + 0.0005;
+											//Decrease DroneLng
+											polyLng = result[i]['lng']-simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
+										}
+										else if(polyLat >= geocoded_arrival_lat){
+											//Decrease DroneLat
+											simulatedLatIncrease = 0.001;
+											simulatedLngIncrease = 0.0001;
+											polyLat = polyLat-simulatedLatIncrease;
+											simulatedLatIncrease = simulatedLatIncrease + 0.0005;
+											//Increase DroneLng
+											polyLng = polyLng-simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
+										}
+									}
+									//####################################################################################//
+
+									//################## Case 2 : B markerLat < A markerLat Blng > Alng ##################//
+									//Rebuild map marker with data recieved from mappage controller : index action
+									if(geocoded_arrival_lat < geocoded_depart_lat && geocoded_arrival_lng > geocoded_depart_lng){
+										if(testVar == 0)
+											//Increase DroneLat
+											polyLat = result[i]['lat']-simulatedLatIncrease;
+										if(polyLat > geocoded_arrival_lat){
+									
+											simulatedLatIncrease = simulatedLatIncrease + 0.0005;
+											//Decrease DroneLng
+											polyLng = result[i]['lng']+simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
+										}
+										else if(polyLat <= geocoded_arrival_lat){
+											//Decrease DroneLat
+											simulatedLatIncrease = 0.001;
+											simulatedLngIncrease = 0.0001;
+											polyLat = polyLat+simulatedLatIncrease;
+											simulatedLatIncrease = simulatedLatIncrease + 0.0005;
+											//Increase DroneLng
+											polyLng = polyLng-simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
+										}
+									}
+									//####################################################################################//
+
+									//################## Case 3 : A markerLat < B markerLat & Alng < Blng ##################//
+									//Rebuild map marker with data recieved from mappage controller : index action
+									if(geocoded_arrival_lat > geocoded_depart_lat && geocoded_arrival_lng > geocoded_depart_lng){
+										if(testVar == 0)
+											//Increase DroneLat
+											//simulatedLatIncrease = 0.0012;
+											polyLat = result[i]['lat']+simulatedLatIncrease;
+										if(polyLat < geocoded_arrival_lat){
+									
+											simulatedLatIncrease = simulatedLatIncrease + 0.00020;
+											//Decrease DroneLng
+											polyLng = result[i]['lng']+simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
+										}
+										else if(polyLat >= geocoded_arrival_lat){
+											//Decrease DroneLat
+											simulatedLatIncrease = 0.001;
+											simulatedLngIncrease = 0.0001;
+											polyLat = polyLat-simulatedLatIncrease;
+											simulatedLatIncrease = simulatedLatIncrease + 0.0005;
+											//Increase DroneLng
+											polyLng = polyLng-simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
+										}
+									}
+									//####################################################################################//
+
+									//################## Case 4 : B markerLat < A markerLat & Blng < Alng ##################//
+									//Rebuild map marker with data recieved from mappage controller : index action
+									if(geocoded_arrival_lat < geocoded_depart_lat && geocoded_arrival_lng < geocoded_depart_lng){
+										if(testVar == 0)
+											//Increase DroneLat
+											//simulatedLatIncrease = 0.0012;
+											polyLat = result[i]['lat']-simulatedLatIncrease;
+										if(polyLat > geocoded_arrival_lat){
+									
+											simulatedLatIncrease = simulatedLatIncrease + 0.00020;
+											//Decrease DroneLng
+											polyLng = result[i]['lng']-simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0009;
+										}
+										else if(polyLat <= geocoded_arrival_lat){
+											//Decrease DroneLat
+											simulatedLatIncrease = 0.001;
+											simulatedLngIncrease = 0.0001;
+											polyLat = polyLat+simulatedLatIncrease;
+											simulatedLatIncrease = simulatedLatIncrease + 0.0005;
+											//Increase DroneLng
+											polyLng = polyLng+simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
+										}
+									}
+									//####################################################################################//
+
+									//polyLat = result[i]['lat']+simulatedLatIncrease;
+									//simulatedLatIncrease = simulatedLatIncrease + 0.0005;
+									//polyLng = result[i]['lng']+simulatedLngIncrease;
+									//simulatedLngIncrease = simulatedLngIncrease - 0.0012;
+									myLatlng = new google.maps.LatLng(polyLat, polyLng);
 									mapOptions = {
 									  zoom: 16,
 									  center: myLatlng
@@ -198,6 +312,7 @@
 									setRegNumber("reg_number");
 									setDate();
 									processDistanceAndDuration();
+									writeToFile();
 								}
 							}
 	  					},
@@ -314,7 +429,25 @@
 				            alert("Unable to find the distance via road.");
 				        }
 				    });
-	    		}			
+	    		}
+	    		
+	    		function writeToFile(){
+	    			$.ajax({
+						type: "POST",
+						url: "<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>",
+						cache: false,
+						contentType: 'application/json',
+						dataType: "json",
+						data: {Lat: JSON.stringify(polyLat), Lng: JSON.stringify(polyLng)},//, DroneName:, RegNumber:, FlightDate:, FlightTime:, Depart:, Arrive:},
+						success: function(result){  
+							console.log("Success!");
+							
+	  					},
+	  					error: function(XMLHttpResquestm, textStatus, errorThrown){
+	  						console.log(textStatus, errorThrown);
+	  					}
+	    			});	
+				};			
 			</script>
 		</div>
 	</div>
