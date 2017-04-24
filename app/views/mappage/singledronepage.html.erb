@@ -4,7 +4,7 @@
 <%= javascript_include_tag  'js.cookie.js' %>
 
 
-<div class=" body_margin" >
+<div class="body_margin">
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 panel" id="divAboveMap">
 			<p>Tracking <span id="tracking_drone_name"></span></p>
@@ -16,17 +16,22 @@
 				// Declare globally needed variables for the single map marker
 				var marker;
 				var myLatlng;
+				var polyLat;
+				var polyLng;
 				var iconBase;
 				var map;
 				var mapOptions;
-				var lat;
-				var lng;
 				var info;
 				var regNumber;
 				var drone_nam;
 				var drone_lat;
 				var drone_lng;
 				var tracking_drone_name = document.getElementById('tracking_drone_name');
+				var departure;
+				var arrival;
+				var simulatedLatIncrease = 0.001;
+				var simulatedLngIncrease = 0.0001;
+				
 
 				//############### Load single marker (drone) on the map #################
 				$(document).ready(function(){
@@ -57,7 +62,6 @@
 					tracking_drone_name.innerHTML = info;
 					//tracking_drone_reg_number.innerHTML = regNumber;
 
-
 					//############### Ajax to GET double-clicked drone's data to render on map AND render map layout ###############
 					$.ajax({
 						type: "GET",
@@ -72,8 +76,9 @@
 							for(var i = 0; i < result.length; i++){
 								//Precondition: Clicked drone from initial view (mappage#index) is the same as one of the drones on initial view 
 								if( info == result[i]['infowindow'] && regNumber == result[i]['marker_title']){
-									console.log(result[i]['infowindow']);
-
+									console.log(result[i]['lat']);
+									polyLat = result[i]['lat'];
+									polyLng = result[i]['lng'];
 									//Rebuild map marker with data recieved from mappage controller : index action
 									myLatlng = new google.maps.LatLng(result[i]['lat'], result[i]['lng']);
 									mapOptions = {
@@ -87,27 +92,27 @@
 									    title: result[i]['infowindow'],
 									    icon: iconBase
 									});
+									departure = result[i]["departure"];
+									arrival = result[i]["arrival"];
+									document.getElementById("departure").innerHTML = departure;
+									document.getElementById("arrival").innerHTML = arrival;
 									
 									//########## Create object containing no-fly zones coordinates and population(population is temporary) ##########
 								    var citymap = {
-									    chicago: {
-								          center: {lat: 41.878, lng: -87.629},
-								          population: 2714856
+									    shreveportRegional: {
+								          center: {lat: 32.4546, lng: -93.8285},
+								          population: 100,
 								        },
-								        newyork: {
-								          center: {lat: 40.714, lng: -74.005},
-								          population: 8405837
-								        },
-								        losangeles: {
-								          center: {lat: 34.052, lng: -118.243},
-								          population: 3857799
-								        },
-								        vancouver: {
-								          center: {lat: 49.25, lng: -123.1},
-								          population: 603502
+								        barksdaleAFB: {
+								          center: {lat: 32.5019, lng: -93.6571},
+								          population: 110
 								        }
 							      	};
 
+							      	var geocoder = new google.maps.Geocoder();
+									geocodeDepartureAddress(geocoder, map, departure);
+									geocodeArrivalAddress(geocoder, map, arrival);
+									
 							      	//############### Construct the circle for each value in citymap ###############
 							        // Note: We scale the area of the circle based on the population.
 							        for (var city in citymap) {
@@ -124,40 +129,27 @@
 							          });
 							        }
 
-							        //############### Construct polyline ###############
-							        var flightPlanCoordinates = [
-							        	{lat: 37.777, lng: -96.77699999999999},
-							          	{lat: 21.291, lng: -157.821},
-							          	{lat: -18.142, lng: 178.431},
-							          	{lat: -27.467, lng: 153.027}
-							        ];
-							        var flightPath = new google.maps.Polyline({
-							          	path: flightPlanCoordinates,
-							          	geodesic: true,
-							          	strokeColor: '#FF0000',
-							          	strokeOpacity: 1.0,
-							          	strokeWeight: 2
-							        });
-							        //##### Add polyline #####
-							        flightPath.setMap(map);
-									// To add the marker to the map, call setMap();
 									marker.setMap(map);
 									//########## Display flight details ##########
 									setLatitude("lat");
 									setLongitude("lng");
 									setDroneName("drone_name");
 									setRegNumber("reg_number");
-									//Call ajax auto_load function every 5 seconds to reload marker on map 
-									setInterval(auto_load, 5000);
+									setDate();
+									processDistanceAndDuration();
 								}
 							}
 	  					},
 	  					error: function(XMLHttpResquestm, textStatus, errorThrown){
 	  						console.log(textStatus, errorThrown);
 	  					}
-	    			});		
+	    			});	
+					//Call ajax auto_load function every 5 seconds to reload marker on map 
+					setInterval(auto_load, 5000);
 				});
-
+		
+				//Condition to get initial simulated polyLat (drone latitude)
+				var testVar = 0;
 				//Make calls at an interval to reload the map
 				function auto_load(){	
 					//Ajax function to get marker data from mappage controller : index action 
@@ -177,8 +169,116 @@
 								if( result[i]['infowindow'] == marker.getTitle() && regNumber == result[i]['marker_title']){
 									//Remove marker icon from map 
 									marker.setMap(null);
+
+									//************** SET SIMULATION FOR ALL POSSIBLE DIRECTIONS (NOT PERFECT) **************//
+									//################## Case 1 : A markerLat < B markerLat & Alng > Blng ##################//
 									//Rebuild map marker with data recieved from mappage controller : index action
-									myLatlng = new google.maps.LatLng(result[i]['lat'], result[i]['lng']);
+									if(geocoded_arrival_lat > geocoded_depart_lat && geocoded_arrival_lng < geocoded_depart_lng){
+										if(testVar == 0)
+											//Increase DroneLat
+											polyLat = result[i]['lat']+simulatedLatIncrease;
+										if(polyLat < geocoded_arrival_lat){
+											
+											simulatedLatIncrease = simulatedLatIncrease + 0.0005;
+											//Decrease DroneLng
+											polyLng = result[i]['lng']-simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
+										}
+										else if(polyLat >= geocoded_arrival_lat){
+											//Decrease DroneLat
+											simulatedLatIncrease = 0.001;
+											simulatedLngIncrease = 0.0001;
+											polyLat = polyLat-simulatedLatIncrease;
+											simulatedLatIncrease = simulatedLatIncrease + 0.0005;
+											//Increase DroneLng
+											polyLng = polyLng-simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
+										}
+									}
+									//####################################################################################//
+									//################## Case 2 : B markerLat < A markerLat Blng > Alng ##################//
+									//Rebuild map marker with data recieved from mappage controller : index action
+									if(geocoded_arrival_lat < geocoded_depart_lat && geocoded_arrival_lng > geocoded_depart_lng){
+										if(testVar == 0)
+											//Increase DroneLat
+											polyLat = result[i]['lat']-simulatedLatIncrease;
+										if(polyLat > geocoded_arrival_lat){
+									
+											simulatedLatIncrease = simulatedLatIncrease + 0.0005;
+											//Decrease DroneLng
+											polyLng = result[i]['lng']+simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
+										}
+										else if(polyLat <= geocoded_arrival_lat){
+											//Decrease DroneLat
+											simulatedLatIncrease = 0.001;
+											simulatedLngIncrease = 0.0001;
+											polyLat = polyLat+simulatedLatIncrease;
+											simulatedLatIncrease = simulatedLatIncrease + 0.0005;
+											//Increase DroneLng
+											polyLng = polyLng-simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
+										}
+									}
+									//######################################################################################//
+									//################## Case 3 : A markerLat < B markerLat & Alng < Blng ##################//
+									//Rebuild map marker with data recieved from mappage controller : index action
+									if(geocoded_arrival_lat > geocoded_depart_lat && geocoded_arrival_lng > geocoded_depart_lng){
+										if(testVar == 0)
+											//Increase DroneLat
+											//simulatedLatIncrease = 0.0012;
+											polyLat = result[i]['lat']+simulatedLatIncrease;
+										if(polyLat < geocoded_arrival_lat){
+									
+											simulatedLatIncrease = simulatedLatIncrease + 0.00020;
+											//Decrease DroneLng
+											polyLng = result[i]['lng']+simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
+										}
+										else if(polyLat >= geocoded_arrival_lat){
+											//Decrease DroneLat
+											simulatedLatIncrease = 0.001;
+											simulatedLngIncrease = 0.0001;
+											polyLat = polyLat-simulatedLatIncrease;
+											simulatedLatIncrease = simulatedLatIncrease + 0.0005;
+											//Increase DroneLng
+											polyLng = polyLng-simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
+										}
+									}
+									//######################################################################################//
+									//################## Case 4 : B markerLat < A markerLat & Blng < Alng ##################//
+									//Rebuild map marker with data recieved from mappage controller : index action
+									if(geocoded_arrival_lat < geocoded_depart_lat && geocoded_arrival_lng < geocoded_depart_lng){
+										if(testVar == 0)
+											//Increase DroneLat
+											//simulatedLatIncrease = 0.0012;
+											polyLat = result[i]['lat']-simulatedLatIncrease;
+										if(polyLat > geocoded_arrival_lat){
+									
+											simulatedLatIncrease = simulatedLatIncrease + 0.00020;
+											//Decrease DroneLng
+											polyLng = result[i]['lng']-simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0009;
+										}
+										else if(polyLat <= geocoded_arrival_lat){
+											//Decrease DroneLat
+											simulatedLatIncrease = 0.001;
+											simulatedLngIncrease = 0.0001;
+											polyLat = polyLat+simulatedLatIncrease;
+											simulatedLatIncrease = simulatedLatIncrease + 0.0005;
+											//Increase DroneLng
+											polyLng = polyLng+simulatedLngIncrease;
+											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
+										}
+									}
+									//####################################################################################//
+
+									//polyLat = result[i]['lat']+simulatedLatIncrease;
+									//simulatedLatIncrease = simulatedLatIncrease + 0.0005;
+									//polyLng = result[i]['lng']+simulatedLngIncrease;
+									//simulatedLngIncrease = simulatedLngIncrease - 0.0012;
+									myLatlng = new google.maps.LatLng(polyLat, polyLng);
 									mapOptions = {
 									  zoom: 16,
 									  center: myLatlng
@@ -200,6 +300,8 @@
 									setLongitude("lng");
 									setDroneName("drone_name");
 									setRegNumber("reg_number");
+									setDate();
+									processDistanceAndDuration();
 								}
 							}
 	  					},
@@ -225,6 +327,103 @@
 					var reg_number = document.getElementById(variable);
 					reg_number.innerHTML = regNumber;
 				}
+				function setDate(){
+					var currentDate = new Date();
+					document.getElementById("date").innerHTML = currentDate.toDateString();
+				}
+
+				//#### Process geocoding for departure address ####
+				var geocoded_depart_lat;
+				var geocoded_depart_lng;
+				function geocodeDepartureAddress(geocoderDepart, resultsMap, addressType) {
+			        var address = addressType;
+			        geocoderDepart.geocode({'address': address}, function(results, status) {
+			          if (status === 'OK') {
+			            //resultsMap.setCenter(results[0].geometry.location);
+			            geocoded_depart_lat = results[0].geometry.location.lat();
+						geocoded_depart_lng = results[0].geometry.location.lng();
+			            var departMarker = new google.maps.Marker({
+			            	icon: "<%= ActionController::Base.helpers.asset_path('assets/brown_MarkerA.png') %>",
+			              	map: resultsMap,
+			              	position: results[0].geometry.location,
+      						zIndex:99999999
+			            });	  
+			          } else {
+			            alert('Geocode was not successful for the following reason: ' + status);
+			          }
+			        });
+			    }
+
+				//#### Process geocoding for arrival address ####
+			    var geocoded_arrival_lat;
+				var geocoded_arrival_lng;
+			    function geocodeArrivalAddress(geocoderArrival, resultsMap, addressType) {
+			        var address = addressType;
+			        geocoderArrival.geocode({'address': address}, function(myResult, status) {
+			          if (status === 'OK') {
+			            //resultsMap.setCenter(myResult[0].geometry.location);
+			            geocoded_arrival_lat = myResult[0].geometry.location.lat();
+						geocoded_arrival_lng = myResult[0].geometry.location.lng();
+			            var arrivalMarker = new google.maps.Marker({
+			            	icon: "<%= ActionController::Base.helpers.asset_path('assets/brown_MarkerB.png') %>",
+			              	map: resultsMap,
+			              	position: myResult[0].geometry.location
+			            });
+			            setPolyline();
+			          } else {
+			            alert('Geocode was not successful for the following reason: ' + status);
+			          }
+			        });
+			    }
+
+			    //#### Process geocoding for arrival address ####
+			    function setPolyline(){
+			    	//############### Construct polyline ###############							        
+			        var flightPlanCoordinates = [
+			        	{lat: polyLat, lng: polyLng},
+			          	{lat: geocoded_arrival_lat, lng: geocoded_arrival_lng}
+			        ];
+			        var flightPath = new google.maps.Polyline({
+			          	path: flightPlanCoordinates,
+			          	geodesic: true,
+			          	strokeColor: 'rgb(69, 90, 100);',
+			          	strokeOpacity: 1.0,
+			          	strokeWeight: 3
+			        });
+			        //##### Add polyline to map #####
+			        flightPath.setMap(map);
+			    }
+			    function processDistanceAndDuration(){
+				    //############### Instantiate Directions Service ###############
+				    var directionsService = new google.maps.DirectionsService();
+				    ////############# DISTANCE AND DURATION ###############//
+	    			var service = new google.maps.DistanceMatrixService();
+	    			service.getDistanceMatrix({
+				        origins: [departure],
+				        destinations: [arrival],
+				        travelMode: google.maps.TravelMode.DRIVING,
+				        unitSystem: google.maps.UnitSystem.METRIC,
+				        avoidHighways: false,
+				        avoidTolls: false
+				    }, function (response, status) {
+				        if (status == google.maps.DistanceMatrixStatus.OK && response.rows[0].elements[0].status != "ZERO_RESULTS") {
+				            var distance = response.rows[0].elements[0].distance.text;
+				            var duration = response.rows[0].elements[0].duration.text;
+				            var distVar  = Number(distance.substring(0, distance.length-3));
+				            var durVar   = Number(duration.substring(0, distance.length-5));
+				            var speedVar 	 = distVar/durVar;
+				            
+				            var dvDistance = document.getElementById("distance");
+				            dvDistance.innerHTML = distance;
+				            var dvDuration = document.getElementById("duration");
+				            dvDuration.innerHTML = duration; 
+				            var dvSpeed = document.getElementById("speed");
+				            dvSpeed.innerHTML = (speedVar * 0.621371).toFixed(2) + " mph"; 
+				        } else {
+				            alert("Unable to find the distance via road.");
+				        }
+				    });
+	    		}			
 			</script>
 		</div>
 	</div>
@@ -237,30 +436,80 @@
 					<div style="background: rgb(69, 90, 100); height: auto; min-height: 200px;">
 						<div id="flight_details" style="color: rgba(255,255,255,0.9);">
 							<table id="table_flight_details">
-								<tr>
-									<th>Latitude</th>
-									<th>Longitude</th>
-									<th>Drone Name</th>
-									<th>Reg. Number</th>
-								</tr>
+								<col style="width:20%">
+						        <col style="width:30%">
+						        <col style="width:30%">
+						        <col style="width:20%">
+						        <thead>
+									<tr>
+										<th>Latitude</th>
+										<th>Longitude</th>
+										<th>Drone Name</th>
+										<th>Reg. Number</th>
+									</tr>
+								</thead>
 								<tr>
 									<td><span id="lat"></span></td>
 									<td><span id="lng"></span></td>
 									<td><span id="drone_name"></span></td>
 									<td><span id="reg_number"></span></td>
+								</tr><tr></tr>
+								<tr>
+									<thead>
+										<tr>
+											<th>Duration</th>
+											<th>Distance</th>
+											<th>Speed</th>
+										</tr>
+									</thead>
+									<tr>
+										<td><span id="duration"></span></td>
+										<td><span id="distance"></span></td>
+										<td><span id="speed"></span></td>
+									</tr>
 								</tr>
 							</table>
+							<h6>Duration, Distance, and Speed currently based on Google's DRIVING travel mode.</h6>
 							<div id ="warning_div" class="panel">
-								<h5>WARNING BELOW</h5>
+								<h6>WARNING</h6>
 							</div>
-							<h6>NO-FLY ZONE: </h6>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-6 col-sm-12">
 					<h4 style="color: rgba(255,255,255,0.8); text-align: center;">Activity Log</h4>
 					<div style="background: rgb(69, 90, 100);  height: auto; min-height: 200px;">
-						
+						<div id="activity_log" style="color: rgba(255,255,255,0.9);">
+							<table id="table_activity_log">
+								<col style="width:20%">
+						        <col style="width:20%">
+						        <col style="width:20%">
+						        <col style="width:20%">
+						        <col style="width:20%">
+						        <thead>
+									<tr>
+										<th>Date</th>
+										<th>Time</th>
+										<th>Departure</th>
+										<th>Arrival</th>
+									</tr>
+								</thead>
+								<tr>
+									<td><span id="date"></span></td>
+									<td><span id="time"></span>
+										<script type="text/javascript">
+											function setTime(){
+												var currentTime = new Date(new Date().getTime()).toLocaleTimeString();
+												document.getElementById("time").innerHTML = currentTime;
+											}
+											setInterval(setTime, 1000);
+										</script>
+									</td>
+									<td><span id="departure"></span></td>
+									<td><span id="arrival"></span></td>
+								</tr>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -28,7 +28,16 @@
     js = d.createElement(s); js.id = id;
     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
     fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));</script>
+  }(document, 'script', 'facebook-jssdk'));
+
+  function autoResizeDiv()
+    {
+        document.getElementById('my_custom_body').style.height = window.innerHeight +'px';
+    }
+    window.onresize = autoResizeDiv;
+    autoResizeDiv();
+
+  </script>
 
 <nav class="navbar navbar-default navbar-fixed-top navbar-inverse navText" style="height:65px;">
   <div class="container">
@@ -55,9 +64,20 @@
         <li class="navbar-right">
           <a href="/users"><span class="glyphicon glyphicon-cog"></span></a>
         </li>
-        <li class="navbar-right">
-          <a href="/drones" style="color: rgba(255,255,255,1);"><span class="glyphicon glyphicon-log-in"></span> Login</a>
-        </li>
+
+        <!-- SHow login if there is no session, otherwise shows logout if the user already login-->
+        <% if session[:user_id].is_a? Integer %>
+          <li class="navbar-right">
+            <a href="/drones" style="color: rgba(255,255,255,1);"><span class="glyphicon glyphicon-plane"></span> Drones</a>
+          </li>
+          <li class="navbar-right">
+            <a href="/logout" style="color: rgba(255,255,255,1);"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+          </li>       
+        <% else %>
+          <li class="navbar-right">
+            <a href="/login" style="color: rgba(255,255,255,1);"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+          </li>
+        <%end %>
         <li class="navbar-right">
           <a href="/users/new" style="color: rgba(255,255,255,1);"><span class="glyphicon glyphicon-user"></span> Register</a>
         </li>
@@ -65,7 +85,7 @@
     </div>
   </div>
 </nav>
-<div>
+<div id="my_custom_body">
   <%= yield %>
 </div>
 <footer>

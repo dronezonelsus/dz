@@ -16,12 +16,4 @@
  *= require faaregulationpage
  *= require singledronepage
  *= require_tree .
- *=
  */
-html, body, {
-    position:fixed;
-    top:150;
-    bottom:0;
-    left:0;
-    right:0;
-}

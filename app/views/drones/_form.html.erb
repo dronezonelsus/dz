@@ -10,7 +10,6 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
     <%= f.label :Drone_number %><br>
     <%= f.number_field :drone_number %>
@@ -18,6 +17,14 @@
   <div class="field">
     <%= f.label :Drone_name %><br>
     <%= f.text_field :drone_name %>
+  </div>
+  <div class="field">
+    <%= f.label :departure %><br>
+    <%= f.text_field :departure %>
+  </div>
+  <div class="field">
+    <%= f.label :arrival %><br>
+    <%= f.text_field :arrival %>
   </div>
   <div class="field">
     <%= f.label :latitude %><br>
@@ -28,6 +35,7 @@
     <%= f.text_field :longitude %>
   </div>
   </br>
+  <%= f.hidden_field :user_id, :value => session[:user_id] %>
   <div class="actions">
     <%= f.submit %>
   </div>

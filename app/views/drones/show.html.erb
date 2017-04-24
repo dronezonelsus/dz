@@ -21,6 +21,16 @@
   <%= @drone.longitude %>
 </p>
 
+<p>
+  <strong>Departure:</strong>
+  <%= @drone.departure %>
+</p>
+
+<p>
+  <strong>Arrival:</strong>
+  <%= @drone.arrival %>
+</p>
+
 <%= link_to 'Edit', edit_drone_path(@drone) %> |
 <%= link_to 'Back', drones_path %>
 </div>

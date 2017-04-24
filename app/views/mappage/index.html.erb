@@ -65,6 +65,7 @@
 	  					 			temp_drone_for_search = marker;
 	  					 			marker_reg_numbers[index] = marker.getServiceObject().title;
 									marker_drone_name[index] = result[index]['infowindow'];
+
 	  					 			
 	  					 			// Add mouseover event listener to drones to display infowindow data 
 	  					 			google.maps.event.addListener(marker.getServiceObject(), 'mouseover', function(){
@@ -75,7 +76,6 @@
 										var mydrone = result[index];
 										delete mydrone['marker']; // Delete what's causing mydrone to become a circular structure								
 										//console.log(marker.getServiceObject().title);
-						  				
 						  				// Call sleep function to post double-clicked drone to mappage controller : singledronepage action
 						  				sleep();
 						  				// sleep function
