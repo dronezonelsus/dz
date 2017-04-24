@@ -28,7 +28,7 @@ class MappageController < ApplicationController
  
  ######## Not using this action right now ########
   def singledronepage
-    puts params[:Lat] 
+
     #File.open("drone_telemetry_data.csv", "a+") do |f|
       #f.write "polyLat";
     #end 
