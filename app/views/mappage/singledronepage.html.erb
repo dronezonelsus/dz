@@ -106,14 +106,6 @@
 								        barksdaleAFB: {
 								          center: {lat: 32.5019, lng: -93.6571},
 								          population: 110
-								        },
-								        losangeles: {
-								          center: {lat: 34.052, lng: -118.243},
-								          population: 3857799
-								        },
-								        vancouver: {
-								          center: {lat: 49.25, lng: -123.1},
-								          population: 603502
 								        }
 							      	};
 
@@ -145,7 +137,6 @@
 									setRegNumber("reg_number");
 									setDate();
 									processDistanceAndDuration();
-									writeToFile();
 								}
 							}
 	  					},
@@ -156,7 +147,8 @@
 					//Call ajax auto_load function every 5 seconds to reload marker on map 
 					setInterval(auto_load, 5000);
 				});
-
+		
+				//Condition to get initial simulated polyLat (drone latitude)
 				var testVar = 0;
 				//Make calls at an interval to reload the map
 				function auto_load(){	
@@ -178,6 +170,7 @@
 									//Remove marker icon from map 
 									marker.setMap(null);
 
+									//************** SET SIMULATION FOR ALL POSSIBLE DIRECTIONS (NOT PERFECT) **************//
 									//################## Case 1 : A markerLat < B markerLat & Alng > Blng ##################//
 									//Rebuild map marker with data recieved from mappage controller : index action
 									if(geocoded_arrival_lat > geocoded_depart_lat && geocoded_arrival_lng < geocoded_depart_lng){
@@ -203,7 +196,6 @@
 										}
 									}
 									//####################################################################################//
-
 									//################## Case 2 : B markerLat < A markerLat Blng > Alng ##################//
 									//Rebuild map marker with data recieved from mappage controller : index action
 									if(geocoded_arrival_lat < geocoded_depart_lat && geocoded_arrival_lng > geocoded_depart_lng){
@@ -228,8 +220,7 @@
 											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
 										}
 									}
-									//####################################################################################//
-
+									//######################################################################################//
 									//################## Case 3 : A markerLat < B markerLat & Alng < Blng ##################//
 									//Rebuild map marker with data recieved from mappage controller : index action
 									if(geocoded_arrival_lat > geocoded_depart_lat && geocoded_arrival_lng > geocoded_depart_lng){
@@ -255,8 +246,7 @@
 											simulatedLngIncrease = simulatedLngIncrease + 0.0012;
 										}
 									}
-									//####################################################################################//
-
+									//######################################################################################//
 									//################## Case 4 : B markerLat < A markerLat & Blng < Alng ##################//
 									//Rebuild map marker with data recieved from mappage controller : index action
 									if(geocoded_arrival_lat < geocoded_depart_lat && geocoded_arrival_lng < geocoded_depart_lng){
@@ -312,7 +302,6 @@
 									setRegNumber("reg_number");
 									setDate();
 									processDistanceAndDuration();
-									writeToFile();
 								}
 							}
 	  					},
@@ -420,34 +409,21 @@
 				        if (status == google.maps.DistanceMatrixStatus.OK && response.rows[0].elements[0].status != "ZERO_RESULTS") {
 				            var distance = response.rows[0].elements[0].distance.text;
 				            var duration = response.rows[0].elements[0].duration.text;
-				            //var speed = (Number(dist_val)/Number(dur_val));
+				            var distVar  = Number(distance.substring(0, distance.length-3));
+				            var durVar   = Number(duration.substring(0, distance.length-5));
+				            var speedVar 	 = distVar/durVar;
+				            
 				            var dvDistance = document.getElementById("distance");
 				            dvDistance.innerHTML = distance;
 				            var dvDuration = document.getElementById("duration");
 				            dvDuration.innerHTML = duration; 
+				            var dvSpeed = document.getElementById("speed");
+				            dvSpeed.innerHTML = (speedVar * 0.621371).toFixed(2) + " mph"; 
 				        } else {
 				            alert("Unable to find the distance via road.");
 				        }
 				    });
-	    		}
-	    		
-	    		function writeToFile(){
-	    			$.ajax({
-						type: "POST",
-						url: "<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>",
-						cache: false,
-						contentType: 'application/json',
-						dataType: "json",
-						data: {Lat: JSON.stringify(polyLat), Lng: JSON.stringify(polyLng)},//, DroneName:, RegNumber:, FlightDate:, FlightTime:, Depart:, Arrive:},
-						success: function(result){  
-							console.log("Success!");
-							
-	  					},
-	  					error: function(XMLHttpResquestm, textStatus, errorThrown){
-	  						console.log(textStatus, errorThrown);
-	  					}
-	    			});	
-				};			
+	    		}			
 			</script>
 		</div>
 	</div>
