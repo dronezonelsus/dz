@@ -1,0 +1,24 @@
+// Place all the styles related to the Drones controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.droneworks{
+  background: image-url('howdronezoneworks.jpg') no-repeat;
+  width: 100%;
+  height:50px;
+  background-size: cover;
+  overflow: hidden;
+  color: white;
+  padding-bottom: 80px;
+  margin-top: 55px;
+}
+
+.regoutline{
+	margin-left: 300px;
+	margin-right: 350px;
+	background-color: #ffffff;
+	opacity: 0.6;
+	margin-top: 100px;
+}
+
+

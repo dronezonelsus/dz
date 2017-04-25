@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'sessions/new'
   get 'faaregulationpage/index' => "faaregulationpage#index"
-
+  get 'howdronezoneworks/index' => "howdronezoneworks#index"
   # Mappage routes
   get 'mappage/index'
   get 'mappage/secondindex'
