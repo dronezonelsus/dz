@@ -5,7 +5,7 @@ class DronesController < ApplicationController
   # GET /drones.json
   def index
     @drones = Drone.all.reload
-    @drone = Drone.new
+    #@drone = Drone.new
     #@lat = 29.7604  
     #@lon = -93.53
     # @hash = Gmaps4rails.build_markers(@drones) do |drone, marker|

@@ -6,12 +6,12 @@
 
 <div class="body_margin">
 	<div class="row">
-		<div class="col-lg-12 col-md-12 col-sm-12 panel" id="divAboveMap">
-			<p>Tracking <span id="tracking_drone_name"></span></p>
+		<div class="col-lg-12 col-md-12 col-sm-12 panel marqueeTrackingDrone" id="divAboveMap">
+			<p>Tracking <span id="tracking_drone_name"></span>...Thank you for using DroneZone.</p>
 		</div>
 	</div>
 	<div class="row">
-		<div id="single_page_map" class="pos col-lg-12 col-md-12 col-sm-12" style='height: 700px;'>
+		<div id="single_page_map" class="pos col-lg-12 col-md-12 col-sm-12" style='height: 630px;'>
 			<script type="text/javascript">
 				// Declare globally needed variables for the single map marker
 				var marker;
@@ -410,11 +410,16 @@
 				            var distance = response.rows[0].elements[0].distance.text;
 				            var duration = response.rows[0].elements[0].duration.text;
 				            var distVar  = Number(distance.substring(0, distance.length-3));
+				            var distVarToMiles = distVar*0.621371;
 				            var durVar   = Number(duration.substring(0, distance.length-5));
-				            var speedVar 	 = distVar/durVar;
+				            //Validate time unit
+				            if(duration.substring(duration.length-4, duration.length) == "mins"){
+				            	durVar = durVar/60;
+				            }
+				            var speedVar = distVarToMiles/durVar;
 				            
 				            var dvDistance = document.getElementById("distance");
-				            dvDistance.innerHTML = distance;
+				            dvDistance.innerHTML = distVarToMiles.toFixed(2) + " miles";
 				            var dvDuration = document.getElementById("duration");
 				            dvDuration.innerHTML = duration; 
 				            var dvSpeed = document.getElementById("speed");
@@ -430,10 +435,10 @@
 
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12" id="single_page_bottom_wrapper">
-			<div class="row">
+			<div class="row" style="margin-top: 10px;">
 				<div class="col-lg-6 col-md-6 col-sm-12">
 					<h4 style="color: rgba(255,255,255,0.8); text-align: center;">Flight Details</h4>
-					<div style="background: rgb(69, 90, 100); height: auto; min-height: 200px;">
+					<div style="background: rgb(69, 90, 100); height: auto; min-height: 230px;">
 						<div id="flight_details" style="color: rgba(255,255,255,0.9);">
 							<table id="table_flight_details">
 								<col style="width:20%">
@@ -469,16 +474,16 @@
 									</tr>
 								</tr>
 							</table>
-							<h6>Duration, Distance, and Speed currently based on Google's DRIVING travel mode.</h6>
-							<div id ="warning_div" class="panel">
-								<h6>WARNING</h6>
+							<h6>YOU WILL GET WARNING NOTIFICATIONS BELOW. </h6>
+							<div id ="warning_div" class="panel ">
+								<h6 class="marqueeFlightDetailsStatus">Flight Status: OK</h6>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-6 col-sm-12">
 					<h4 style="color: rgba(255,255,255,0.8); text-align: center;">Activity Log</h4>
-					<div style="background: rgb(69, 90, 100);  height: auto; min-height: 200px;">
+					<div style="background: rgb(69, 90, 100);  height: auto; min-height: 230px;">
 						<div id="activity_log" style="color: rgba(255,255,255,0.9);">
 							<table id="table_activity_log">
 								<col style="width:20%">

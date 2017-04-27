@@ -2,17 +2,23 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+
 $brand-primary: #532F8C;
 $brand-language: #B01302;
 $brand-white: #FFFFFF;
 // Container
 .container{ width: 90%; }
-
 .body_margin{
   margin-top: 55px;
-  padding:10px; padding-bottom:50px;   /* Set relative to Height of the footer */
+  padding:10px;  /* Set relative to Height of the footer */
   overflow:hidden; 
-  height: 100%;
+  margin-bottom:0px;
+}
+.mappage_body_margin{
+  padding-top:36px;  /* Set relative to Height of the footer */
+  padding-left: 10px;
+  padding-right: 10px;
+  overflow:hidden;
 }
 
 .btn-primary {
@@ -23,12 +29,6 @@ $brand-white: #FFFFFF;
   	}
 }
 
-#footer{ position:fixed;
-   bottom:0;
-   width:100%;
-   height:60px;   /* Height of the footer */
-   background:#3E4551;
-}
 
 div.sidebarOne h4 { color: #eeeeee; 
 	text-align: left;
@@ -60,9 +60,9 @@ small{ display: inline-block;
 }
 
 
-.bottomDiv { background-color: rgba(0,0,0,0.85);;
+.bottomDiv { background-color: rgba(0,0,0,0.85);
   margin-top: 3px;
-  height: 250px;
+  height: 350px;;
 }
 
 .enterDroneNum h4{ color: #eceff1; 

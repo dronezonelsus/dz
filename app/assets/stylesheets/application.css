@@ -13,6 +13,7 @@
  *= require_self
  *= require landing
  *= require mappage
+ *= require drones
  *= require faaregulationpage
  *= require singledronepage
  *= require_tree .

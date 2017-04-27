@@ -10,34 +10,38 @@
       </ul>
     </div>
   <% end %>
-  <div class="field">
-    <%= f.label :Drone_number %><br>
-    <%= f.number_field :drone_number %>
-  </div>
-  <div class="field">
-    <%= f.label :Drone_name %><br>
-    <%= f.text_field :drone_name %>
-  </div>
-  <div class="field">
-    <%= f.label :departure %><br>
-    <%= f.text_field :departure %>
-  </div>
-  <div class="field">
-    <%= f.label :arrival %><br>
-    <%= f.text_field :arrival %>
-  </div>
-  <div class="field">
-    <%= f.label :latitude %><br>
-    <%= f.text_field :latitude %>
-  </div>
-  <div class="field">
-    <%= f.label :longitude %><br>
-    <%= f.text_field :longitude %>
-  </div>
-  </br>
-  <%= f.hidden_field :user_id, :value => session[:user_id] %>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="row" id="new_drone_div">
+    <div class="col-lg-6 col-md-6 panel" id="new_drone">
+      <div class="field">
+        <%= f.label :Drone_number %><br>
+        <%= f.text_field :drone_number, class: 'form-control' %>
+      </div>
+      <div class="field">
+        <%= f.label :Drone_name %><br>
+        <%= f.text_field :drone_name, class: 'form-control' %>
+      </div>
+      <div class="field">
+        <%= f.label :departure %><br>
+        <%= f.text_field :departure, class: 'form-control' %>
+      </div>
+      <div class="field">
+        <%= f.label :arrival %><br>
+        <%= f.text_field :arrival, class: 'form-control' %>
+      </div>
+      <div class="field">
+        <%= f.label :latitude %><br>
+        <%= f.text_field :latitude, class: 'form-control' %>
+      </div>
+      <div class="field">
+        <%= f.label :longitude %><br>
+        <%= f.text_field :longitude, class: 'form-control' %>
+      </div>
+      </br>
+      <%= f.hidden_field :user_id, :value => session[:user_id] %>
+      <div class="actions">
+        <%= f.submit "Create Drone", class: "btn btn-danger" %> &nbsp; &nbsp; <%= link_to 'Back', drones_path %> 
+      </div>
+    </div>
   </div>
   </br>
 <% end %>
