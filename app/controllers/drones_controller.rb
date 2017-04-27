@@ -4,7 +4,12 @@ class DronesController < ApplicationController
   # GET /drones
   # GET /drones.json
   def index
-    @drones = Drone.all.reload
+    if session[:user_id].is_a? Integer
+      @drones = Drone.where(user_id: session[:user_id]).to_a
+    else
+      @drones = Drone.all.reload
+    end
+
     #@drone = Drone.new
     #@lat = 29.7604  
     #@lon = -93.53

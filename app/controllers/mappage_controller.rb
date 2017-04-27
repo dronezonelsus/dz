@@ -2,7 +2,11 @@ class MappageController < ApplicationController
   
   ######## Index action ########
   def index
-    @drones = Drone.all.reload
+    if session[:user_id].is_a? Integer
+      @drones = Drone.where(user_id: session[:user_id]).to_a
+    else
+      @drones = Drone.all.reload
+    end
     respond_to do |format|
       format.html {}
       format.json {
