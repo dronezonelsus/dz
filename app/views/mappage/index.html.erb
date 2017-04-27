@@ -12,8 +12,7 @@
 </style>
 
 <p id="notice"><%= notice %></p>
-
-<div class="body_margin" style="padding:10px; padding-bottom:50px;   /* Set relative to Height of the footer */ ">	
+<div class="mappage_body_margin">	
 	<!-- <marquee behavior="scroll" direction="left" scrollamount="5"><h3 id="marqueeOne" >Live Tracking in Progress...</h3></marquee> -->
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 panel" id="divAboveMapOne">
@@ -21,7 +20,7 @@
 		</div>
 	</div>
 	<div class="row">
-  		<div id="map" class="pos col-lg-12 col-md-12 col-sm-12" style='height: 700px;'> 
+  		<div id="map" class="pos col-lg-12 col-md-12 col-sm-12" style='height: 630px;'> 
   			
   			<script type="text/javascript">
 
@@ -66,9 +65,9 @@
 	  					 			marker_reg_numbers[index] = marker.getServiceObject().title;
 									marker_drone_name[index] = result[index]['infowindow'];
 
-	  					 			
 	  					 			// Add mouseover event listener to drones to display infowindow data 
 	  					 			google.maps.event.addListener(marker.getServiceObject(), 'mouseover', function(){
+	  					 			  document.getElementById('reg_number').value = marker['serviceObject']['title'];
 							          google.maps.event.trigger(marker.getServiceObject(), 'click');
 							        });
 
@@ -126,6 +125,7 @@
 
 								//json.marker = marker;
   					 			google.maps.event.addListener(marker.getServiceObject(), 'mouseover', function(){
+  					 			  document.getElementById('reg_number').value = marker['serviceObject']['title'];
 						          google.maps.event.trigger(marker.getServiceObject(), 'click');
 						        });					
 								google.maps.event.addListener(marker.getServiceObject(), 'dblclick', function(evt) {
@@ -162,6 +162,10 @@
 						if(marker_reg_numbers[i] == search_drone_reg_number){
 			 				search_drone_name = marker_drone_name[i];
 			 			}
+			 			else{
+			 				alert("Drone does not exist. Try again!");
+    						return false;
+			 			}
 					}
 					//Open new window tab for searched drone
 					window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>"+"?infowindow="+search_drone_name+"&regNumber="+search_drone_reg_number);
@@ -196,7 +200,11 @@
 				<h5 style="font-size: 18px;">Live tracking in progress...Double click drone icon to view telemetry data or use the Quick & Easy Tracking search field.</h5>
 			</div>
 			<div class="col-lg-7 col-lg-offset-1 col-md-7 col-md-offset-1 col-sm-12" id="num_of_drones_div">
-				<h4 style="color: rgba(255,255,255,1);"><span id="num_of_drones"></span> DRONES ON THE MAP</h4>
+				<div style="background: rgba(0,0,0,0.6); position: absolute; left: 0px;">
+					<h5 style="color: rgba(255,255,255,1); padding: 10px;">
+						<span id="num_of_drones"></span> DRONES ON THE MAP
+					</h5>
+				</div>
 			</div>
 			
 		</div>

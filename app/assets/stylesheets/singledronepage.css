@@ -12,6 +12,17 @@
 	margin-top: 8px;
 	letter-spacing: 1px;
 }
+.marqueeTrackingDrone {
+    color: #ffffff;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: marquee 20s linear infinite;
+    -webkit-animation: marquee 20s linear infinite;
+}
+.marqueeTrackingDrone:hover {
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+}
 
 /* Map layout */
 #single_page_map{
@@ -19,34 +30,45 @@
 }
 #single_page_bottom_wrapper{
 	background: rgba(0,0,0,0.8);
-	height: auto;
-	min-height:260px;
+	height: 100%;
+	min-height:340px;
 }
 #flight_details{
-	padding: 10px;
+	padding: 20px;
 	color: rgba(255,255,255,0.9);
 }
 #table_flight_details{
 	width: 100%;
 }
 #warning_div{
-	margin-top: 20px; 
-	width: 90px;
+	margin-top: 15px; 
+	width: 500px;
 	height: auto;
-	min-height: 15px;
-	background-color: rgba(214,50,50,0.4); 
+	min-height: 40px;
+	background-color: rgba(214,50,50,0.2); 
 	color: rgba(255,255,255,1);
 	text-align: center;
 }
 #warning_div h5{
 	font-size: 11px;
 }
+.marqueeFlightDetailsStatus {
+    color: #ffffff;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: marquee 20s linear infinite;
+    -webkit-animation: marquee 20s linear infinite;
+}
+.marqueeFlightDetailsStatus:hover {
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+}
 
 #table_activity_log{
 	width: 90%;
 }
 #activity_log{
-	padding: 10px;
+	padding: 20px;
 	color: rgba(255,255,255,0.9);
 }
 
