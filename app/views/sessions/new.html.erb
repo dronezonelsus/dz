@@ -1,6 +1,11 @@
 <% provide(:title, "Log in") %>
 <div class="container body_padding" style="padding:10px; padding-bottom:50px; margin-top: 3%;">
   <div class="row">
+    <% if flash[:danger] %>
+      <div class="alert alert-danger">
+      <%= flash[:danger] %>
+      </div>
+    <% end %>
     <div class="col-md-6 col-md-offset-3">
       <h1>Login</h1>
         <%= form_for(:session, url: login_path) do |f| %>

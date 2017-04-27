@@ -61,30 +61,30 @@
       </ul>    
 
       <ul class="nav navbar-nav navbar-right">
-        <li class="navbar-right">
-          <a href="/users"><span class="glyphicon glyphicon-cog"></span></a>
-        </li>
-
         <!-- SHow login if there is no session, otherwise shows logout if the user already login-->
         <% if session[:user_id].is_a? Integer %>
+        <li class="navbar-right">
+          <a href="/users"><span class="glyphicon glyphicon-cog"></span></a>
+        </li> 
           <li class="navbar-right">
             <a href="/drones" style="color: rgba(255,255,255,1);"><span class="glyphicon glyphicon-plane"></span> Drones</a>
           </li>
           <li class="navbar-right">
-            <a href="/logout" style="color: rgba(255,255,255,1);"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
-          </li>       
+            <%= link_to '<i class="glyphicon glyphicon-log-out"></i> Logout'.html_safe, logout_path, method: :delete, style: "color: rgba(255,255,255,1);" %>
+          </li>
         <% else %>
+         <li class="navbar-right">
+          <a href="/users/new" style="color: rgba(255,255,255,1);"><span class="glyphicon glyphicon-user"></span> Register</a>
+        </li>
           <li class="navbar-right">
             <a href="/login" style="color: rgba(255,255,255,1);"><span class="glyphicon glyphicon-log-in"></span> Login</a>
           </li>
         <%end %>
-        <li class="navbar-right">
-          <a href="/users/new" style="color: rgba(255,255,255,1);"><span class="glyphicon glyphicon-user"></span> Register</a>
-        </li>
       </ul>
     </div>
   </div>
 </nav>
+
 <div id="">
   <%= yield %>
 </div>
