@@ -157,20 +157,27 @@
 					var search_drone_name;
 					//Get search text value
 					var search_drone_reg_number = document.getElementById('reg_number').value;
-					console.log(marker_reg_numbers[2]);
 					for(var i = 0; i < marker_reg_numbers.length; i++){
-						if(marker_reg_numbers[i] == search_drone_reg_number){
+						var asd = marker_reg_numbers[i];
+						if(search_drone_reg_number == asd){
 			 				search_drone_name = marker_drone_name[i];
-			 			}
-			 			else{
-			 				alert("Drone does not exist. Try again!");
-    						return false;
-			 			}
+						}
+						else if(marker_reg_numbers.includes(search_drone_reg_number) == false){
+							document.getElementById("error_div").innerHTML = "Drone does not exist. Try again!";
+    			 			return false;
+						}
 					}
+
+
+
+					
+			 			// else{
+			 			// 	document.getElementById("error_div").innerHTML = "Drone does not exist. Try again!";
+    			// 			return false;
+			 			// }
 					//Open new window tab for searched drone
 					window.open("<%= Rails.application.routes.url_helpers.mappage_singledronepage_path %>"+"?infowindow="+search_drone_name+"&regNumber="+search_drone_reg_number);
 				}
-
   			</script>
 		</div>
 	</div>
@@ -189,6 +196,7 @@
 							<div id="enterDroneNumBox" class="enterDroneNum">
   								<input type="text" name="droneNumber" id="reg_number" placeholder="Enter Drone Reg. #"><br><br>
   							</div>
+  							<div id="error_div" style="color: yellow; width: 250px;"></div>
   							<div id="trackFlightButton">
  								<input type="submit" value="Track Flight" class="btn btn-danger">
  							</div>
