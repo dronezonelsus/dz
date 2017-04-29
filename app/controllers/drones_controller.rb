@@ -7,7 +7,8 @@ class DronesController < ApplicationController
     if session[:user_id].is_a? Integer
       @drones = Drone.where(user_id: session[:user_id]).to_a
     else
-      @drones = Drone.all.reload
+      flash.now[:danger] = 'Please login to view the drone page!'
+      redirect_to login_path
     end
 
     #@drone = Drone.new
