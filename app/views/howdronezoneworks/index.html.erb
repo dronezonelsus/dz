@@ -1,60 +1,51 @@
-<p id="notice"><%= notice %></p>
-<div class="droneworks" style="width:100%; height:700px;" >
-</div>
-  <div class="regoutline" style="width:60%; height:800px;"> 
-    <div>
-       <p>
-        <strong><h3>Registration</h3></strong>
-         <ul>
-           <li><h4>Register for DroneZone account</h4></li>
-           <li><h4>Enter your information in the registration form. You will get a verification e-mail</a></h4></li>
-           <li><h4>After verification, you are all set to go. </h4></li>
-         </ul>
-       </p>
-     </div>
-
-     <div>
-       <p>
-        <strong><h3>Frequently Asked Questions</h3></strong>  
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-  
-        <script>
-         $(function() {
-         $( ".accordion" ).accordion();
-         $(".accordion").accordion({ header: "h3", collapsible: true, active: false ,heightStyle: "content" });
+<script>
+ $(function(){
+      function setHeight(){
+         $(".response").each(function(index,element){
+            var target = $(element);
+            target.removeClass("fixed-height");
+            var height = target.innerHeight();
+            target.attr("data-height", height).addClass("fixed-height");
          });
-        </script>
-     <div class="accordion">
-               <h4>What is DroneZone?</h4>
-              <div>
-                  <p><h5 text-align="left">DroneZone is a web portal with easy and customized web interface on each system that provides real-time tracking interface with complete picture of drone information for an entire area and individual drone data.</h5></p>
-              </div>
-              <h4>How do I track my Drone?</h4>
-              <div>
-                  <p><h5 text-align="left">Click on the "Live Tracking" in the Login page. Enter your drone number at the bottom of the page and then check for your drone status.</h5></p>
-              </div>
-              <h4>How do I request service from DroneZone?</h4>
-              <div>
-                  <p><h5 text-align="left">Register your Drone with "DroneZone" and request for the service.</h5></p>
-              </div>
-              <h4>Where can I Fly Drone?</h4>
-              <div>
-                  <p><h5 text-align="left">The rule for flying recreational drones is that they must be flown at utmost 400 ft. Also drone owners are expected to fly their drones 5 miles away from airports. FAA suggests certain Do’s and Don’ts which ask the pilots to maintain specific guidelines to be followed. For instructions on different type of drone users, click on the FAA regulations page.</h5></p>
-              </div>
-              <h4>How may I use my drone for business purposes?</h4>
-              <div>
-                   <p><h5 text-align="left">In order to use your Unmanned Aerial Vehicle- Aircraft for commercial purposes you will have to fulfil the following requirements:</h5>
-                   <ul>
-                       <li>You will need a section 333 grant of exception to fly your drone.</li>
-                       <li>An authorization certificate named COA is a must</li>
-                       <li>A registered aircraft under the FAA guidelines.</li>
-                       <li>The pilot must possess a FAA Airman Certificate.</li>
-                    </ul>
-                   </p>
-              </div>
-      </div>
-     </p>
-    </div>
- </div>
+      };
+     
+      $("input[name=question]").on("change", function(){
+         $("p.response").removeAttr("style");
+         $("div.response").removeAttr("style");
+         
+         var target = $(this).next().next();
+         target.height(target.attr("data-height"));
+      })
+     
+      setHeight();
+   });
+</script>
+
+<section>
+   <input class="animate" type="radio" name="question" id="q1"/>
+   <label class="animate" for="q1">Q: What is DroneZone?</label>
+   <p class="response animate">A: DroneZone is a web portal with easy and customized web interface on each system that provides real-time tracking interface with complete picture of drone information for an entire area and individual drone data.</p>
+
+   <input class="animate" type="radio" name="question" id="q2"/>
+   <label class="animate" for="q2">Q: How do I track my Drone?</label>
+   <p class="response animate">A: Click on the "Live Tracking" in the Login page. Enter your drone number at the bottom of the page and then check for your drone status.</p>
+
+   <input class="animate" type="radio" name="question" id="q3"/>
+   <label class="animate" for="q3">Q: How do I request service from DroneZone?</label>
+   <p class="response animate">A: Register your Drone with "DroneZone" and request for the service.</p>
+
+   <input class="animate" type="radio" name="question" id="q4"/>
+   <label class="animate" for="q4">Q: Where can I Fly Drone?</label>
+   <p class="response animate">A: The rule for flying recreational drones is that they must be flown at utmost 400 ft. Also drone owners are expected to fly their drones 5 miles away from airports. FAA suggests certain Do’s and Don’ts which ask the pilots to maintain specific guidelines to be followed. For instructions on different type of drone users, click on the FAA regulations page.</p>
+
+   
+   <input class="animate" type="radio" name="question" id="q5"/>
+   <label class="animate" for="q5">Q: How may I use my drone for business purposes?</label>
+   <div class="response animate">A: In order to use your Unmanned Aerial Vehicle- Aircraft for commercial purposes you will have to fulfil the following requirements:
+   <ul class="mylist">
+     <li>You will need a section 333 grant of exception to fly your drone.</li>
+     <li>An authorization certificate named COA is a must</li>
+     <li>A registered aircraft under the FAA guidelines.</li>
+     <li>The pilot must possess a FAA Airman Certificate.</li>
+   </ul></div>
+</section>

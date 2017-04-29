@@ -10,14 +10,6 @@
   <%= csrf_meta_tags %>
   <style type="text/css">
     
-  p {
-    /*color: lighten($brand-primary, 50%);*/
-    color: $brand-white;
-    max-width: 75%;
-    margin: 1em auto 2em;
-  }
-
-
   </style>
 </head>
 <body>
@@ -30,12 +22,18 @@
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 
-  function autoResizeDiv()
-    {
-        document.getElementById('my_custom_body').style.height = window.innerHeight +'px';
-    }
-    window.onresize = autoResizeDiv;
-    autoResizeDiv();
+  // function autoResizeDiv()
+  //   {
+  //       document.getElementById('my_custom_body').style.height = window.innerHeight +'px';
+  //   }
+  //   window.onresize = autoResizeDiv;
+  //   autoResizeDiv();
+   $(function(){
+         
+      $("#mylist li").on("click", function(){
+        $(this).addClass("test");
+      })
+   });
 
   </script>
   <!-- NavBar -->
@@ -47,9 +45,9 @@
       <span class="icon-bar"></span>
     </button>
     <a class="navbar-brand" href="/" style="padding: 15px;"><img src="<%= asset_path('DroneZone_Logo4.png')%>" alt="DroneZone"></a>
-    <div class="navbar-collapse collapse" style="padding: 10px;">
+    <div id="mylist" class="navbar-collapse collapse" style="padding: 10px;">
       <ul class="nav navbar-nav">
-        <li class="active" >
+        <li class="active">
           <a href="/"><span class="glyphicon glyphicon-home" style="color: rgba(255,255,255,1);"></span> Home </a>
         </li>
         <li>
