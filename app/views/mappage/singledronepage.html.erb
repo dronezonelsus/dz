@@ -98,16 +98,16 @@
 									document.getElementById("arrival").innerHTML = arrival;
 									
 									//########## Create object containing no-fly zones coordinates and population(population is temporary) ##########
-								    var citymap = {
-									    shreveportRegional: {
-								          center: {lat: 32.4546, lng: -93.8285},
-								          population: 100,
-								        },
-								        barksdaleAFB: {
-								          center: {lat: 32.5019, lng: -93.6571},
-								          population: 110
-								        }
-							      	};
+								    // var citymap = {
+									   //  shreveportRegional: {
+								    //       center: {lat: 32.4546, lng: -93.8285},
+								    //       population: 100,
+								    //     },
+								    //     barksdaleAFB: {
+								    //       center: {lat: 32.5019, lng: -93.6571},
+								    //       population: 110
+								    //     }
+							     //  	};
 
 							      	var geocoder = new google.maps.Geocoder();
 									geocodeDepartureAddress(geocoder, map, departure);
@@ -115,19 +115,19 @@
 									
 							      	//############### Construct the circle for each value in citymap ###############
 							        // Note: We scale the area of the circle based on the population.
-							        for (var city in citymap) {
-							          // Add the circle for this city to the map.
-							          var cityCircle = new google.maps.Circle({
-							            strokeColor: '#FF0000',
-							            strokeOpacity: 0.8,
-							            strokeWeight: 2,
-							            fillColor: '#FF0000',
-							            fillOpacity: 0.35,
-							            map: map,
-							            center: citymap[city].center,
-							            radius: Math.sqrt(citymap[city].population) * 100
-							          });
-							        }
+							        // for (var city in citymap) {
+							        //   // Add the circle for this city to the map.
+							        //   var cityCircle = new google.maps.Circle({
+							        //     strokeColor: '#FF0000',
+							        //     strokeOpacity: 0.8,
+							        //     strokeWeight: 2,
+							        //     fillColor: '#FF0000',
+							        //     fillOpacity: 0.35,
+							        //     map: map,
+							        //     center: citymap[city].center,
+							        //     radius: Math.sqrt(citymap[city].population) * 100
+							        //   });
+							        // }
 
 									marker.setMap(map);
 									//########## Display flight details ##########
@@ -137,6 +137,7 @@
 									setRegNumber("reg_number");
 									setDate();
 									processDistanceAndDuration();
+									check_flight_status();
 								}
 							}
 	  					},
@@ -145,7 +146,7 @@
 	  					}
 	    			});	
 					//Call ajax auto_load function every 5 seconds to reload marker on map 
-					setInterval(auto_load, 5000);
+					setInterval(auto_load, 3000);
 				});
 		
 				//Condition to get initial simulated polyLat (drone latitude)
@@ -302,6 +303,7 @@
 									setRegNumber("reg_number");
 									setDate();
 									processDistanceAndDuration();
+									check_flight_status();
 								}
 							}
 	  					},
@@ -410,8 +412,8 @@
 				            var distance = response.rows[0].elements[0].distance.text;
 				            var duration = response.rows[0].elements[0].duration.text;
 				            var distVar  = Number(distance.substring(0, distance.length-3));
-				            var distVarToMiles = distVar*0.621371;
 				            var durVar   = Number(duration.substring(0, distance.length-5));
+				            var distVarToMiles = distVar*0.621371;
 				            //Validate time unit
 				            if(duration.substring(duration.length-4, duration.length) == "mins"){
 				            	durVar = durVar/60;
@@ -423,12 +425,100 @@
 				            var dvDuration = document.getElementById("duration");
 				            dvDuration.innerHTML = duration; 
 				            var dvSpeed = document.getElementById("speed");
-				            dvSpeed.innerHTML = (speedVar * 0.621371).toFixed(2) + " mph"; 
+				            dvSpeed.innerHTML = speedVar.toFixed(2) + " mph"; 
 				        } else {
 				            alert("Unable to find the distance via road.");
 				        }
 				    });
 	    		}			
+
+	    		var citymap;
+	    		var cityCircle;
+	    		var city;
+	    		var test;
+	    		var cityCircleArray = [];
+	    		var rectangleArray = [];
+	    		var k = 0;
+	    		function render_restricted_areas_circles(){
+			    	if (k == 0){
+				    	//############### Construct No fly zone circles ###############							        
+				        //########## Create object containing no-fly zones coordinates and population(population is temporary) ##########
+					    citymap = {
+						    fwConventionCenter: {
+					          center: {lat: 32.7497, lng: -97.3277},
+					          population: 30,
+					        },
+					        fwWestMeadowBrook: {
+					          center: {lat: 32.7469, lng: -97.2734},
+					          population: 30
+					        },
+					        testNoFlyZone: {
+					          center: {lat: 32.7591, lng: -97.3139},
+					          population: 30
+					        },
+					        shreveportRegional: {
+					        	center: {lat: 32.4546, lng: -93.8285},
+					        	population:30
+					        }
+				      	};
+			      		//############### Construct the circle for each value in citymap ###############
+				        // Note: We scale the area of the circle based on the population.
+				        for (city in citymap) {
+				          // Add the circle for this city to the map.
+			          		cityCircleArray[k] = new google.maps.Circle({
+					            strokeColor: '#FF0000',
+					            strokeOpacity: 0.8,
+					            strokeWeight: 2,
+					            fillColor: '#FF0000',
+					            fillOpacity: 0.3,
+					            map: map,
+					            center: citymap[city].center,
+					            radius: Math.sqrt(citymap[city].population) * 100
+			          		});
+
+			          		//############### Construct the rectangle for each value in bounds below ###############
+					        rectangleArray[k] = new google.maps.Rectangle({
+					        	strokeColor: '#ffbb33',
+					          	strokeOpacity: 0.8,
+					          	strokeWeight: 2,
+					          	fillColor: '#ffbb33',
+					          	fillOpacity: 0.45,
+					          	map: map,
+					          	bounds: {
+					            	north: 32.7476,
+					            	south: 32.7436,
+					            	east: -97.3649,
+					            	west: -97.3689
+					          	}
+					        });
+			          		k = k + 1;
+				        }
+				    }
+			    }		    
+			    function remove_restricted_areas_circles(){
+			    	for(var i = 0; i < cityCircleArray.length; i++){
+			    		cityCircleArray[i].setMap(null);
+			    	}		    	
+			    	cityCircleArray.length = 0;
+			    	for(var i = 0; i < rectangleArray.length; i++){
+			    		rectangleArray[i].setMap(null);
+			    	}		    	
+			    	rectangleArray.length = 0;
+			    	k = 0;
+			    }
+			    function check_flight_status(){
+			    	var check_lat = document.getElementById("lat").innerHTML;
+			    	var check_lng = document.getElementById("lng").innerHTML;
+			    	if( check_lat >= 32.7571 && check_lat <= 32.7583){
+			    		document.getElementById("marqueeFlightStatus").innerHTML = "Flight Status: Drone is approaching no-fly zone...";
+			    	}
+			    	else if(check_lat > 32.7583 && check_lat <= 32.7605){
+			    		document.getElementById("marqueeFlightStatus").innerHTML = "Flight Status: Drone is in no-fly zone..Please change course.";
+			    	}
+			    	else{
+			    		document.getElementById("marqueeFlightStatus").innerHTML = "Flight Status: OK";
+			    	}
+			    }
 			</script>
 		</div>
 	</div>
@@ -476,7 +566,7 @@
 							</table>
 							<h6>YOU WILL GET WARNING NOTIFICATIONS BELOW. </h6>
 							<div id ="warning_div" class="panel ">
-								<h6 class="marqueeFlightDetailsStatus">Flight Status: OK</h6>
+								<h6 class="marqueeFlightDetailsStatus" id="marqueeFlightStatus">Flight Status: OK</h6>
 							</div>
 						</div>
 					</div>
@@ -513,7 +603,14 @@
 									<td><span id="departure"></span></td>
 									<td><span id="arrival"></span></td>
 								</tr>
-							</table>
+							</table><br />
+							<input onclick="render_restricted_areas_circles();" type="button" name="render_restricted_areas_circles" value="View Restricted Areas" class="btn btn-lg btn-success" id="no_fly_zone_button" style="font-size: 12px; text-align: center; padding:5px; height: 30px; margin-top:30px; width: 160px; font-weight: bold;"> <br />
+
+							<input onclick="remove_restricted_areas_circles();" type="button" name="remove_restricted_areas_circles" value="Remove Restricted Areas" class="btn btn-lg btn-success" id="remove_no_fly_zone_button" style="font-size: 12px; text-align: center; padding:5px; height: 30px; margin-top:5px; width: 160px; font-weight: bold;">
+							 &nbsp; &nbsp; &nbsp; &nbsp;
+							<img src="<%= asset_path('no-fly-zone2.png')%>">  No-Fly Zone
+							 &nbsp; &nbsp; &nbsp; &nbsp;
+							<img src="<%= asset_path('Tall-buildings.png')%>">  Tall Building
 						</div>
 					</div>
 				</div>
