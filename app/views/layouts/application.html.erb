@@ -62,7 +62,7 @@
         <!-- SHow login if there is no session, otherwise shows logout if the user already login-->
         <% if session[:user_id].is_a? Integer %>
         <li class="navbar-right">
-          <a href="/users"><span class="glyphicon glyphicon-cog"></span></a>
+          <a href="#" style="color: rgba(255,255,255,1);">Welcome <%= session[:first_name] %>! </a>
         </li> 
           <li class="navbar-right">
             <a href="/drones" style="color: rgba(255,255,255,1);"><span class="glyphicon glyphicon-plane"></span> Drones</a>
