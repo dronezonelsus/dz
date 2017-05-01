@@ -510,12 +510,17 @@
 			    	var check_lat = document.getElementById("lat").innerHTML;
 			    	var check_lng = document.getElementById("lng").innerHTML;
 			    	if( check_lat >= 32.7571 && check_lat <= 32.7583){
+			    		//Change flight status notification background color
+			    		document.getElementById("warning_div").style.backgroundColor = "rgba(214,50,50,0.2)";
 			    		document.getElementById("marqueeFlightStatus").innerHTML = "Flight Status: Drone is approaching no-fly zone...";
 			    	}
 			    	else if(check_lat > 32.7583 && check_lat <= 32.7605){
+			    		document.getElementById("warning_div").style.backgroundColor = "rgba(214,50,50,0.2)";
 			    		document.getElementById("marqueeFlightStatus").innerHTML = "Flight Status: Drone is in no-fly zone..Please change course.";
 			    	}
 			    	else{
+			    		//Change flight status notification background color
+			    		document.getElementById("warning_div").style.backgroundColor = "green";
 			    		document.getElementById("marqueeFlightStatus").innerHTML = "Flight Status: OK";
 			    	}
 			    }
