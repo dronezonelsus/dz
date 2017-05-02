@@ -11,7 +11,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div id="single_page_map" class="pos col-lg-12 col-md-12 col-sm-12" style='height: 600px;'>
+		<div id="single_page_map" class="pos col-lg-12 col-md-12 col-sm-12" style='height: 550px;'>
 			<script type="text/javascript">
 				// Declare globally needed variables for the single map marker
 				var marker;
@@ -82,7 +82,7 @@
 									//Rebuild map marker with data recieved from mappage controller : index action
 									myLatlng = new google.maps.LatLng(result[i]['lat'], result[i]['lng']);
 									mapOptions = {
-									  zoom: 16,
+									  zoom: 14,
 									  center: myLatlng
 									}
 									map = new google.maps.Map(document.getElementById("single_page_map"), mapOptions);
@@ -146,7 +146,7 @@
 	  					}
 	    			});	
 					//Call ajax auto_load function every 5 seconds to reload marker on map 
-					setInterval(auto_load, 3000);
+					setInterval(auto_load, 9000);
 				});
 		
 				//Condition to get initial simulated polyLat (drone latitude)
@@ -281,7 +281,7 @@
 									//simulatedLngIncrease = simulatedLngIncrease - 0.0012;
 									myLatlng = new google.maps.LatLng(polyLat, polyLng);
 									mapOptions = {
-									  zoom: 16,
+									  zoom: 14,
 									  center: myLatlng
 									}
 									marker = new google.maps.Marker({
@@ -624,7 +624,7 @@
 	</div>
 </div>
 <!-- Bottom Extra :) -->
-<div style="background: rgba(0,0,0,0.8); height: 70px; ">
+<div style="background: rgba(0,0,0,0.8); height: 90px; ">
 </div>
 
 
